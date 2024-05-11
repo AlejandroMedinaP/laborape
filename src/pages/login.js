@@ -34,11 +34,11 @@ const LoginForm = () => {
               />
             </div>
             <div>
-              <button className="btn" type="submit">
+              <button className="btn" type="submit" href="postulacionfree">
                 INGRESAR
               </button>
               <p>
-              <a className="link" href="/">
+              <a className="link">
               RESTABLECER CONTRASEÑA
               </a>
             </p>

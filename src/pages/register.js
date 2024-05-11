@@ -49,7 +49,7 @@ const LoginForm = () => {
               Contraseña
             </label>
             <input
-              placeholder="Introduzca contraseña"
+              placeholder="Introduzca una contraseña"
               id="password"
               className="form_style"
               type="password"
