@@ -7,7 +7,7 @@ const LoginForm = () => {
     return (
       <div className="container">
         <div className="form_area">
-          <p className="title">LABORA PE</p>
+          <p className="title">LaboraPE</p>
           <form action="">
             <div className="form_group">
               <label className="sub_title" htmlFor="email">

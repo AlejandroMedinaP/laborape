@@ -54,10 +54,11 @@ const PaginaTareas = () => {
               <label htmlFor="categoria">Categoría:</label>
               <select id="categoria" name="categoria" value={filtros.categoria} onChange={manejarCambioFiltro}>
                 <option value="">Todas las categorías</option>
-                <option value="desarrollo-web">Desarrollo Web</option>
-                <option value="desarrollo-movil">Desarrollo Móvil</option>
-                <option value="diseño">Diseño</option>
-                <option value="marketing">Marketing</option>
+                <option value="Plomería">Plomería</option>
+                <option value="Albañilería">Albañilería</option>
+                <option value="Kinesiólogía">Kinesiólogía</option>
+                <option value="Electricista">Electricista</option>
+                <option value="Gasfitería">Gasfitería</option>
               </select>
             </div>
             <div className="filter">
