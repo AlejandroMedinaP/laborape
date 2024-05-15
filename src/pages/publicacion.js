@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { useRouter } from 'next/router';
 
+
+
 class formulario extends Component {
   constructor(props) {
     super(props);
@@ -45,17 +47,17 @@ class formulario extends Component {
               onChange={this.handleInputChange.bind(this)}
             />
           </div>
-          <label htmlFor="task">Nomnre de tarea:</label>
-            <input
-              type="text"
-              id="task"
-              name="task"
-              value={this.state.task}
-              onChange={this.handleInputChange.bind(this)}
+          <label htmlFor="task">Descripcion:</label>
+            <textarea
+                id="description"
+                name="description"
+                value={this.state.description}
+                onChange={this.handleInputChange.bind(this)}
+                rows={6} // Número de filas
             />
           {/* Resto del formulario */}
-          <button type="submit">Enviar</button>
         </form>
+        <button type="submit">Enviar</button>
       </div>
     );
   }
