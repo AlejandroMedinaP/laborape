@@ -11,7 +11,6 @@ class formulario extends Component {
       image: null,
       additionalInfo: '',
     };
-    this.router = useRouter();
   }
 
 
@@ -33,12 +32,11 @@ class formulario extends Component {
   render() {
     return (
       <div className="container">
-        <h1>Bienvenido a mi aplicación</h1>
-        <p>Serás redirigido a la página de inicio de sesión en breve.</p>
+        <h1>Eniva tu actividad</h1>
+        <p>Por este formulario podras subir la actividad que deseas resolver</p>
         <form className="form" onSubmit={this.handleSubmit.bind(this)}>
-          <h2>Crear Nueva Tarea</h2>
           <div className="form-group">
-            <label htmlFor="task">Tarea:</label>
+            <label htmlFor="task">Nomnre de tarea:</label>
             <input
               type="text"
               id="task"
@@ -47,6 +45,14 @@ class formulario extends Component {
               onChange={this.handleInputChange.bind(this)}
             />
           </div>
+          <label htmlFor="task">Nomnre de tarea:</label>
+            <input
+              type="text"
+              id="task"
+              name="task"
+              value={this.state.task}
+              onChange={this.handleInputChange.bind(this)}
+            />
           {/* Resto del formulario */}
           <button type="submit">Enviar</button>
         </form>
