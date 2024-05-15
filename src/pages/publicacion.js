@@ -55,8 +55,17 @@ class formulario extends Component {
                 onChange={this.handleInputChange.bind(this)}
                 rows={6} // Número de filas
             />
+            
           {/* Resto del formulario */}
         </form>
+        <label htmlFor="image">Subir Imagen:</label>
+                <input
+                     type="file"
+                     id="image"
+                     name="image"
+                     accept="image/*"
+                     onChange={this.handleImageChange.bind(this)}
+                />
         <button type="submit">Enviar</button>
       </div>
     );
