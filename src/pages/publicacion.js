@@ -47,7 +47,8 @@ class formulario extends Component {
               onChange={this.handleInputChange.bind(this)}
             />
           </div>
-          <label htmlFor="task">Descripcion:</label>
+          <div>
+          <label htmlFor="task">Descripcion de la tarea:</label>
             <textarea
                 id="description"
                 name="description"
@@ -55,9 +56,29 @@ class formulario extends Component {
                 onChange={this.handleInputChange.bind(this)}
                 rows={6} // Número de filas
             />
-            
+           </div>
           {/* Resto del formulario */}
+          <div>
+          <label htmlFor="category">Categoría:</label>
+            <select
+                id="category"
+                name="category"
+                value={this.state.category}
+                onChange={this.handleInputChange.bind(this)}
+            >
+                <option value="personal">--Selecciona--</option>
+                <option value="trabajo">Carpintenria</option>
+                <option value="estudios">Electricista</option>
+                <option value="estudios">Mecanico</option>
+                <option value="estudios">Fontanero</option>
+            {/* Puedes agregar más opciones según tus necesidades */}
+            </select>
+            </div>
         </form>
+        <div>
+            <label htmlFor="location">Ubicación:</label>
+                <MapContainer />
+        </div>
         <label htmlFor="image">Subir Imagen:</label>
                 <input
                      type="file"
