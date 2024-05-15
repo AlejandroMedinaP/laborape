@@ -3,40 +3,55 @@ import { useRouter } from "next/router";
 import react from 'react';
 import Head from "next/head";
 
-export default function login(){
+const LoginForm = () => {
     return (
-    <>
-        <Head>
-            <title> LaboraPE </title>
-        </Head>
-        <div id="titulo">
-            <p>Crea tu cuenta</p>
-        </div>
-        <div id="firstname">
-            <p>Primer Nombre</p>
-            <div id="box">
-                
+      <div className="container">
+        <div className="form_area">
+          <p className="title">LaboraPE</p>
+          <form action="">
+            <div className="form_group">
+              <label className="sub_title" htmlFor="email">
+                Email
+              </label>
+              <input
+                placeholder="Ingrese su email"
+                id="email"
+                className="form_style"
+                type="email"
+                required // Add required attribute for validation
+              />
             </div>
-        </div>
-        <div id="lastname">
-            <p>Last Name</p>
-            <div id="box2">
-                
+            <div className="form_group">
+              <label className="sub_title" htmlFor="password">
+                Contraseña
+              </label>
+              <input
+                placeholder="Ingrese su contraseña"
+                id="password"
+                className="form_style"
+                type="password"
+                required // Add required attribute for validation
+              />
             </div>
-        </div>
-        <div id="Email">
-            <p>Email</p>
-            <div id="box3">
-                
+            <div>
+              <button className="btn" type="submit" href="postulacionfree">
+                INGRESAR
+              </button>
+              <p>
+              <a className="link">
+              RESTABLECER CONTRASEÑA
+              </a>
+            </p>
+              <p>
+                <a className="link" href="/register">
+                CREAR NUEVA CUENTA
+                </a>
+              </p>
             </div>
+          </form>
         </div>
-        <div id="Password">
-            <p>Contraseña</p>
-            <div id="box4">
-                
-            </div>
-        </div>
-
-        </>
-    )
-}
+      </div>
+    );
+  };
+  
+  export default LoginForm;

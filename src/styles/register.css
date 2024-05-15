@@ -12,6 +12,7 @@
     flex-direction: column;
     text-align: center;
   }
+  
   .form_area {
     display: flex;
     justify-content: center;
