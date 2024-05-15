@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/login.css';
+import  '../styles/publicacion.css';
 
 
 function MyApp({ Component, pageProps }) {
