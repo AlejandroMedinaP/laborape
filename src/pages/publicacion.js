@@ -57,13 +57,13 @@ class Formulario extends Component {
             />
           </div>
           <div className="form-group">
-            <label htmlFor="location">Location:</label>
-            <textarea
-              id="location"
-              name="location"
-              value={this.state.location}
+            <label htmlFor="location">Locacion:</label>
+            <input
+              type="text"
+              id="locacion"
+              name="locacion"
+              value={this.state.locacion}
               onChange={this.handleInputChange.bind(this)}
-              rows={6} // Número de filas
             />
           </div>
           <div className="form-group">
