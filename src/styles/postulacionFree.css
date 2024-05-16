@@ -2,77 +2,52 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 20px;
 }
 
 .subMegaConte {
-  width: 80%;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+}
+
+.contenedor {
+  display: flex;
+  justify-content: space-between;
 }
 
 .child1 {
-  display: flex;
-  justify-content: flex-end;
+  flex: 1;
 }
 
 .child2 {
   display: flex;
+  justify-content: flex-end;
   gap: 20px;
 }
 
 .links {
-  text-decoration: none;
   color: blue;
+  text-decoration: none;
 }
 
 .version {
-  font-size: 12px;
-  color: gray;
+  color: grey;
 }
 
-.conteAgregar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.subConteAgregar2 {
-  cursor: pointer;
-}
-
-.conteAgregar2 {
+.subMegaConte2 {
   margin-top: 20px;
 }
 
-.conteAgregar3 {
-  margin-top: 20px;
+.subSubTitulo {
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.paginationContainer {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
+.miniTrabajos {
+  margin-top: 10px;
 }
 
-.paginationButton {
-  cursor: pointer;
-  padding: 5px 10px;
-  margin: 0 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #fff;
-}
-
-.paginationButton.active {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.paginationButton:hover {
-  background-color: #007bff;
-  color: #fff;
-}
-
-.paginationButton.disabled {
-  cursor: not-allowed;
-  color: #999;
+.subSubTexto {
+  color: grey;
+  font-style: italic;
 }

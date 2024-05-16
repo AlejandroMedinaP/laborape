@@ -1,6 +1,4 @@
 import React from 'react';
-import styles from './Filtros.module.css'
-
 
 const TrabajoItem = ({ trabajo, onPostular }) => {
   const handlePostular = () => {
