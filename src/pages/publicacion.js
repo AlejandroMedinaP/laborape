@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { useRouter } from 'next/router';
+import NavBar from '../component/navbar'; // Ruta correcta al archivo NavBar.js
 
-
-
-class formulario extends Component {
+class Formulario extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,7 +13,6 @@ class formulario extends Component {
       additionalInfo: '',
     };
   }
-
 
   handleInputChange(event) {
     const { name, value } = event.target;
@@ -34,11 +32,12 @@ class formulario extends Component {
   render() {
     return (
       <div className="container">
-        <h1>Eniva tu actividad</h1>
-        <p>Por este formulario podras subir la actividad que deseas resolver</p>
+        <NavBar />
+        <h1>Envía tu actividad</h1>
+        <p>Por este formulario podrás subir la actividad que deseas resolver</p>
         <form className="form" onSubmit={this.handleSubmit.bind(this)}>
           <div className="form-group">
-            <label htmlFor="task">Nomnre de tarea:</label>
+            <label htmlFor="task">Nombre de tarea:</label>
             <input
               type="text"
               id="task"
@@ -47,50 +46,57 @@ class formulario extends Component {
               onChange={this.handleInputChange.bind(this)}
             />
           </div>
-          <div>
-          <label htmlFor="task">Descripcion de la tarea:</label>
+          <div className="form-group">
+            <label htmlFor="description">Descripción de la tarea:</label>
             <textarea
-                id="description"
-                name="description"
-                value={this.state.description}
-                onChange={this.handleInputChange.bind(this)}
-                rows={6} // Número de filas
+              id="description"
+              name="description"
+              value={this.state.description}
+              onChange={this.handleInputChange.bind(this)}
+              rows={6} // Número de filas
             />
-           </div>
-          {/* Resto del formulario */}
-          <div>
-          <label htmlFor="category">Categoría:</label>
+          </div>
+          <div className="form-group">
+            <label htmlFor="location">Location:</label>
+            <textarea
+              id="location"
+              name="location"
+              value={this.state.location}
+              onChange={this.handleInputChange.bind(this)}
+              rows={6} // Número de filas
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="category">Categoría:</label>
             <select
-                id="category"
-                name="category"
-                value={this.state.category}
-                onChange={this.handleInputChange.bind(this)}
+              id="category"
+              name="category"
+              value={this.state.category}
+              onChange={this.handleInputChange.bind(this)}
             >
-                <option value="personal">--Selecciona--</option>
-                <option value="trabajo">Carpintenria</option>
-                <option value="estudios">Electricista</option>
-                <option value="estudios">Mecanico</option>
-                <option value="estudios">Fontanero</option>
-            {/* Puedes agregar más opciones según tus necesidades */}
+              <option value="personal">--Selecciona--</option>
+              <option value="trabajo">Carpintería</option>
+              <option value="estudios">Electricista</option>
+              <option value="estudios">Mecánico</option>
+              <option value="estudios">Fontanero</option>
+              {/* Puedes agregar más opciones según tus necesidades */}
             </select>
-            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="image">Subir Imagen:</label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              accept="image/*"
+              onChange={this.handleImageChange.bind(this)}
+            />
+          </div>
+          <button type="submit">Enviar</button>
         </form>
-        <div>
-            <label htmlFor="location">Ubicación:</label>
-                <MapContainer />
-        </div>
-        <label htmlFor="image">Subir Imagen:</label>
-                <input
-                     type="file"
-                     id="image"
-                     name="image"
-                     accept="image/*"
-                     onChange={this.handleImageChange.bind(this)}
-                />
-        <button type="submit">Enviar</button>
       </div>
     );
   }
 }
 
-export default formulario;
+export default Formulario;
