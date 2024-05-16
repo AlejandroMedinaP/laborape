@@ -1,122 +1,78 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { Divider } from '@mui/material';
+import styles from '../styles/postulacionFree.css';
+import Trabajos from '../components/Trabajos';
+import Filtros from '../components/Filtros';
 
 
-const PaginaTareas = () => {
-    const [tareas, setTareas] = React.useState([]);
-    const [filtros, setFiltros] = React.useState({
-      categoria: '',
-      ubicacion: '',
-      tipoPago: '',
-    });
-  
-    React.useEffect(() => {
-      // Obtener tareas desde la API
-      fetch('/api/tareas')
-        .then((respuesta) => respuesta.json())
-        .then((datos) => setTareas(datos));
+function Index() {
+    const [trabajos, setTrabajos] = useState([]);
+    const [nombreUser, setNombreUser] = useState('');
+    const [ubicaciones, setUbicaciones] = useState([]);
+    const [categorias, setCategorias] = useState([]);
+
+    async function fetchTrabajos() {
+        try {
+            const response = await fetch("http://localhost:3100/api/trabajos", {
+                method: "GET"
+            });
+            const data = await response.json();
+            setTrabajos(data);
+        } catch (error) {
+            console.error('Error al obtener los trabajos:', error);
+        }
+    }
+
+    async function fetchFiltros() {
+        try {
+            const ubicacionesData = await fetch("http://localhost:3100/api/ubicaciones");
+            const categoriasData = await fetch("http://localhost:3100/api/categorias");
+            const ubicaciones = await ubicacionesData.json();
+            const categorias = await categoriasData.json();
+            setUbicaciones(ubicaciones);
+            setCategorias(categorias);
+        } catch (error) {
+            console.error('Error al obtener los filtros:', error);
+        }
+    }
+
+    useEffect(() => {
+        fetchTrabajos();
+        fetchFiltros();
     }, []);
-  
-    const manejarCambioFiltro = (evento) => {
-      const { name, value } = evento.target;
-      setFiltros(filtrosAnteriores => ({
-        ...filtrosAnteriores,
-        [name]: value,
-      }));
+
+    const handleFiltroCambio = (tipo, valor) => {
+        console.log(`Filtro ${tipo} cambiado a: ${valor}`);
     };
-  
-    const tareasFiltradas = tareas.filter((tarea) => {
-      const { categoria, ubicacion, tipoPago } = filtros;
-      return (
-        (categoria === '' || tarea.categoria === categoria) &&
-        (ubicacion === '' || tarea.ubicacion === ubicacion) &&
-        (tipoPago === '' || tarea.tipoPago === tipoPago)
-      );
-    });
-  
+
     return (
-      <div>
-        <div className="header">
-          <div className="search-bar">
-            <input type="text" placeholder="Buscar" />
-            <button>Buscar</button>
-          </div>
-        </div>
-        <nav className="nav">
-          <Link href="/">Inicio</Link>
-          <Link href="/tareas">Tareas</Link>
-          <Link href="/perfil">Perfil</Link>
-          <Link href="/notificaciones">Notificaciones</Link>
-        </nav>
-        <div className="tasks-container">
-          <div className="filters">
-            <div className="filter">
-              <label htmlFor="categoria">Categoría:</label>
-              <select id="categoria" name="categoria" value={filtros.categoria} onChange={manejarCambioFiltro}>
-                <option value="">Todas las categorías</option>
-                <option value="Plomería">Plomería</option>
-                <option value="Albañilería">Albañilería</option>
-                <option value="Kinesiólogía">Kinesiólogía</option>
-                <option value="Electricista">Electricista</option>
-                <option value="Gasfitería">Gasfitería</option>
-              </select>
+        <>
+            <div className={styles.megaConte}>
+                <div className={styles.subMegaConte}>
+                </div>
+                
+                <div className={styles.subMegaConte}>
+                    <div className={styles.contenedor}>
+                        <div className={styles.child1}>
+                            <div className={styles.child2}>
+                                <Link className={styles.links} href='/administrador'>Principal</Link>
+                                <Link className={styles.links} href='/administrador/configuracion'>Perfil</Link> 
+                                <Link className={styles.links} href='/administrador/biblioteca'>Biblioteca</Link>
+                                <p className={styles.version}>Biblio v1.0.2-alpha</p>
+                            </div>
+                        </div>
+                        <div className={styles.subMegaConte2}>
+                            <h1>Bienvenido, {nombreUser}!</h1>
+                            <Divider />
+                            <Filtros ubicaciones={ubicaciones} categorias={categorias} onFiltroCambio={handleFiltroCambio} />
+                            <Trabajos trabajos={trabajos} />
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className="filter">
-              <label htmlFor="ubicacion">Ubicación:</label>
-              <input type="text" id="ubicacion" name="ubicacion" value={filtros.ubicacion} onChange={manejarCambioFiltro} />
-            </div>
-            <div className="filter">
-              <label htmlFor="tipoPago">Tipo de Pago:</label>
-              <select id="tipoPago" name="tipoPago" value={filtros.tipoPago} onChange={manejarCambioFiltro}>
-                <option value="">Todos los tipos de pago</option>
-                <option value="por-hora">Por hora</option>
-                <option value="fijo">Fijo</option>
-              </select>
-            </div>
-            <button className="apply-filters-button" onClick={() => console.log("Filtros Aplicados")}>Aplicar Filtros</button>
-          </div>
-          <div className="tasks-list">
-            {tareasFiltradas.map((tarea) => (
-              <Tarea key={tarea.id} tarea={tarea} />
-            ))}
-          </div>
-        </div>
-      </div>
+        </>
     );
-  };
-  
-  export default PaginaTareas;
-  
-  const Tarea = ({ tarea }) => {
-    return (
-      <div className="task">
-        <div className="task-title">
-          <Link href={`/tareas/${tarea.id}`}>{tarea.titulo}</Link>
-          <div className="sorting">
-            <select onChange={(e) => console.log("Ordenando:", e.target.value)}>
-              <option value="ascendente">Ascendente</option>
-              <option value="descendente">Descendente</option>
-            </select>
-            <button>Ordenar</button>
-          </div>
-        </div>
-        <div className="task-details">
-          <p>{tarea.descripcion}</p>
-          <div className="task-info">
-            <div className="task-info-item">
-              <label>Categoría:</label>
-              <span>{tarea.categoria}</span>
-            </div>
-            <div className="task-info-item">
-              <label>Nombre del Cliente:</label>
-              <span>{tarea.nombreCliente}</span>
-            </div>
-            <div className="task-info-item">
-              <label>Fecha de Publicación:</label>
-              <span>{tarea.fechaPublicacion}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  };
+}
+
+export default Index;
