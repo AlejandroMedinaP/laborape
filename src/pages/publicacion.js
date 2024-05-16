@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { useRouter } from 'next/router';
-import NavBar from '../component/navbar'; // Ruta correcta al archivo NavBar.js
+import NavBar from '../component/navbar';
 
 class Formulario extends Component {
   constructor(props) {
