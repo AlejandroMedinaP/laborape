@@ -9,8 +9,8 @@ import Filtros from '../components/Filtros';
 function Index() {
     const [trabajos, setTrabajos] = useState([]);
     const [nombreUser, setNombreUser] = useState('');
-    const [ubicaciones, setUbicaciones] = useState([]);
-    const [categorias, setCategorias] = useState([]);
+    const [locacion, setLocacion] = useState([]);
+    const [categoria, setCategoria] = useState([]);
 
     async function fetchTrabajos() {
         try {
@@ -26,12 +26,12 @@ function Index() {
 
     async function fetchFiltros() {
         try {
-            const ubicacionesData = await fetch("http://localhost:3100/api/ubicaciones");
-            const categoriasData = await fetch("http://localhost:3100/api/categorias");
-            const ubicaciones = await ubicacionesData.json();
-            const categorias = await categoriasData.json();
-            setUbicaciones(ubicaciones);
-            setCategorias(categorias);
+            const locacionData = await fetch("http://localhost:3100/api/ubicaciones");
+            const categoriaData = await fetch("http://localhost:3100/api/categorias");
+            const locacion = await locacionData.json();
+            const categoria = await categoriaData.json();
+            setLocacion(locacion);
+            setCategoria(categoria);
         } catch (error) {
             console.error('Error al obtener los filtros:', error);
         }
@@ -59,13 +59,12 @@ function Index() {
                                 <Link className={styles.links} href='/administrador'>Principal</Link>
                                 <Link className={styles.links} href='/administrador/configuracion'>Perfil</Link> 
                                 <Link className={styles.links} href='/administrador/biblioteca'>Biblioteca</Link>
-                                <p className={styles.version}>Biblio v1.0.2-alpha</p>
                             </div>
                         </div>
                         <div className={styles.subMegaConte2}>
                             <h1>Bienvenido, {nombreUser}!</h1>
                             <Divider />
-                            <Filtros ubicaciones={ubicaciones} categorias={categorias} onFiltroCambio={handleFiltroCambio} />
+                            <Filtros locacion={locacion} categoria={categoria} onFiltroCambio={handleFiltroCambio} />
                             <Trabajos trabajos={trabajos} />
                         </div>
                     </div>
