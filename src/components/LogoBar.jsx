@@ -1,12 +1,12 @@
 import React from 'react';
-import LaboraPe from '../Imagenes/logoLaboraPE.jpg';
+import LaboraPe from '../Imagenes/LaboraPe.png';
 
 const LogoBar = () => {
   return (
     <div className="logo-bar">
       {/* Logo */}
       <div className="logo">
-        <img src={LaboraPe} style={{ width: '100px', height: '50px' }} />
+        <img src={LaboraPe} width='30px' height='15px' />
       </div>
 
       {/* Enlaces de Navegación */}
