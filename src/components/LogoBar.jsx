@@ -6,7 +6,7 @@ const LogoBar = () => {
     <div className="logo-bar">
       {/* Logo */}
       <div className="logo">
-        
+        <img src={LaboraPe} style={{ width: '100px', height: '50px' }} />
       </div>
 
       {/* Enlaces de Navegación */}
