@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { useRouter } from 'next/router';
-import NavBar from '../component/navbar';
+import NavBar from '@/components/navbar';
+
 
 class Formulario extends Component {
   constructor(props) {
@@ -11,11 +12,14 @@ class Formulario extends Component {
       category: 'personal',
       image: null,
       additionalInfo: '',
+      deadline: '',
     };
   }
 
   handleInputChange(event) {
     const { name, value } = event.target;
+
+
     this.setState({ [name]: value });
   }
 
@@ -29,10 +33,15 @@ class Formulario extends Component {
     // Aquí puedes agregar la lógica para enviar el formulario
   }
 
+  handleImageReset() {
+    this.setState({ image: null });
+    document.getElementById('image').value = null; // Resetear el input de archivo
+  }g
+
   render() {
     return (
       <div className="container">
-        <NavBar />
+       <NavBar></NavBar>
         <h1>Envía tu actividad</h1>
         <p>Por este formulario podrás subir la actividad que deseas resolver</p>
         <form className="form" onSubmit={this.handleSubmit.bind(this)}>
@@ -54,6 +63,7 @@ class Formulario extends Component {
               value={this.state.description}
               onChange={this.handleInputChange.bind(this)}
               rows={6} // Número de filas
+              placeholder="Escribe la descripción de la actividad"
             />
           </div>
           <div className="form-group">
@@ -92,8 +102,34 @@ class Formulario extends Component {
               onChange={this.handleImageChange.bind(this)}
             />
           </div>
+          <div className="form-group">
+          <label htmlFor="deadline">Fecha Límite:</label>
+             <input
+              type="date"
+              id="deadline"
+              name="deadline"
+              value={this.state.deadline}
+               onChange={this.handleInputChange}
+            />
+          </div>
           <button type="submit">Enviar</button>
         </form>
+        <style jsx>{`
+          .form-group {
+            margin-bottom: 15px;
+          }
+          .form-group label {
+            display: block;
+            margin-bottom: 5px;
+          }
+          .form-group input,
+          .form-group textarea,
+          .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+          }
+        `}</style>
       </div>
     );
   }
