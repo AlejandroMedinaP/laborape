@@ -1,4 +1,5 @@
 import React from 'react';
+import LaboraPe from '../Imagenes/LaboraPe.png';
 
 
 const LogoBar = () => {
