@@ -22,30 +22,34 @@ const LoginForm = () => {
               />
             </div>
             <div className="form_group">
-              <label className="sub_title" htmlFor="password">
-                Contraseña
+              <label className="sub_title" htmlFor="Newpassword">
+                Nueva Contraseña
               </label>
               <input
-                placeholder="Ingrese su contraseña"
-                id="password"
+                placeholder="Ingrese su nueva contraseña"
+                id="Nuevapassword"
+                className="form_style"
+                type="password"
+                required // Add required attribute for validation
+              />
+            </div>
+            <div className="form_group">
+              <label className="sub_title" htmlFor="Repetirpassword">
+                Repetir Contraseña
+              </label>
+              <input
+                placeholder="Repita su nueva contraseña"
+                id="Repetirpassword"
                 className="form_style"
                 type="password"
                 required // Add required attribute for validation
               />
             </div>
             <div>
-              <button className="btn" type="submit" href="postulacionfree">
-                INGRESAR
+              <button className="btn" type="submit" href="login">
+                RESTABLECER CONTRASEÑA
               </button>
               <p>
-              <a className="link" href="restablecerContra">
-              RESTABLECER CONTRASEÑA
-              </a>
-            </p>
-              <p>
-                <a className="link" href="/register">
-                CREAR NUEVA CUENTA
-                </a>
               </p>
             </div>
           </form>
