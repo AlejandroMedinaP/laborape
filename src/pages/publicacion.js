@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { useRouter } from 'next/router';
-import NavBar from '@/components/navbar';
+import LogoBar from '@/components/LogoBar';
 
 
 class Formulario extends Component {
@@ -41,7 +41,7 @@ class Formulario extends Component {
   render() {
     return (
       <div className="container">
-       <NavBar></NavBar>
+       <LogoBar></LogoBar>
         <h1>Envía tu actividad</h1>
         <p>Por este formulario podrás subir la actividad que deseas resolver</p>
         <form className="form" onSubmit={this.handleSubmit.bind(this)}>
@@ -110,6 +110,17 @@ class Formulario extends Component {
               name="deadline"
               value={this.state.deadline}
                onChange={this.handleInputChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="description">Extra:</label>
+            <textarea
+              id="Extra"
+              name="Extra"
+              value={this.state.description}
+              onChange={this.handleInputChange.bind(this)}
+              rows={6} // Número de filas
+              placeholder="Comenta algo adicional"
             />
           </div>
           <button type="submit">Enviar</button>
