@@ -64,21 +64,21 @@ const Propuestas = () => {
   const propuestas = [
     {
       id: 1,
-      imagen: '../Imagenes/logoLA.jpg',
-      nombre: 'Nombre Propuesta 1',
-      descripcion: 'Descripción breve de la Propuesta 1'
+      imagen: '../Imagenes/grieta.jpg',
+      nombre: 'Albañilería - Reparación de Pared Agrietada',
+      descripcion: 'Hola, necesito ayuda urgente con una de las paredes de mi casa. Noté que hay varias grietas que han ido creciendo con el tiempo. La pared está en una habitación que usamos frecuentemente y me preocupa que esto pueda empeorar y comprometer la estructura. No solo es un problema estético, sino que temo que pueda haber problemas más serios detrás de estas grietas. Necesito que alguien venga a evaluarlo y me dé una solución para repararlo lo antes posible'
     },
     {
       id: 2,
-      imagen: '../Imagenes/logoLA.jpg',
-      nombre: 'Nombre Propuesta 2',
-      descripcion: "Descripción breve de la Propuesta 2"
+      imagen: '../Imagenes/descascarado.jpg',
+      nombre: 'Pintura - Pintura Descascarada en la Fachada',
+      descripcion: "Buenos días, tengo un problema con la pintura de la fachada de mi casa. La pintura se está descascarando en varias áreas y se ve realmente mal. Vivimos cerca del mar, así que la salinidad y la humedad han acelerado el deterioro. Quiero que la fachada vuelva a lucir bien, pero también necesito que la nueva pintura sea resistente a estas condiciones. Estoy buscando a un profesional que pueda raspar la pintura vieja, preparar adecuadamente la superficie y aplicar una pintura de calidad que dure más tiempo."
     },
     {
       id: 3,
-      imagen: '../Imagenes/logoLA.jpg',
-      nombre: 'Nombre Propuesta 3',
-      descripcion: 'Descripción breve de la Propuesta 3'
+      imagen: '../Imagenes/grieta.jpg',
+      nombre: 'Fontanería - Goteo en el Lavabo del Baño',
+      descripcion: 'Hola, tengo un problema con el lavabo del baño. La llave del agua gotea constantemente, incluso cuando está cerrada. El sonido del goteo es molesto y me preocupa el desperdicio de agua. He intentado apretar la llave yo mismo, pero no ha funcionado. Necesito que un fontanero venga a revisar y arreglar este problema lo antes posible. No quiero que el goteo cause algún daño mayor o que la factura de agua siga subiendo por esto'
     },
     {
       id: 4,
@@ -109,7 +109,7 @@ const Propuestas = () => {
   return (
     <div className="container">
       <LogoBar></LogoBar>
-      <h1>Freelancer Proposals for Job Applicant</h1>
+      <h1>Propuestas de trabajo</h1>
       <Box sx={{ padding: 2 }}>
         <Grid container spacing={2}>
           {currentItems.map((item, index) => (
