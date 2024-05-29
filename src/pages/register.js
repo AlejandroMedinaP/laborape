@@ -1,14 +1,63 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/router";
-import react from 'react';
-import Head from "next/head";
 
-const LoginForm = () => {
+const RegistrationForm = () => {
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    name: "",
+    lastname: "",
+    email: "",
+    password: "",
+    role: "trabajador",
+  });
+  const [error, setError] = useState(null);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+
+    // Validación básica (puedes agregar más validaciones según tus requisitos)
+    if (!formData.name || !formData.lastname || !formData.email || !formData.password) {
+      setError("Por favor, complete todos los campos.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/register", { // Reemplaza con tu endpoint real
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        // Registro exitoso
+        const data = await response.json();
+        router.push("/login"); // Redirige al login (o a donde quieras)
+      } else {
+        // Error en el registro
+        const errorData = await response.json();
+        if (errorData.code === "ER_DUP_ENTRY") {
+          setError("El correo electrónico ya está registrado.");
+        } else {
+          setError(errorData.message || "Ocurrió un error durante el registro.");
+        }
+      }
+    } catch (error) {
+      setError("Ocurrió un error durante el registro. Por favor, inténtelo de nuevo más tarde.");
+      console.error(error);
+    }
+  };
+
   return (
     <div className="container">
       <div className="form_area">
         <p className="title">REGISTRO</p>
-        <form action="">
+        <form onSubmit={handleSubmit}>
+          {/* Campos del formulario */}
           <div className="form_group">
             <label className="sub_title" htmlFor="name">
               Nombre
@@ -18,6 +67,9 @@ const LoginForm = () => {
               className="form_style"
               type="text"
               id="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
             />
           </div>
           <div className="form_group">
@@ -26,10 +78,12 @@ const LoginForm = () => {
             </label>
             <input
               placeholder="Introduzca su apellido"
-              id="password"
+              id="lastname" 
               className="form_style"
-              type="password"
-              required // Add required attribute for validation
+              type="text" 
+              value={formData.lastname}
+              onChange={handleChange}
+              required 
             />
           </div>
           <div className="form_group">
@@ -41,7 +95,9 @@ const LoginForm = () => {
               id="email"
               className="form_style"
               type="email"
-              required // Add required attribute for validation
+              value={formData.email}
+              onChange={handleChange}
+              required 
             />
           </div>
           <div className="form_group">
@@ -53,16 +109,17 @@ const LoginForm = () => {
               id="password"
               className="form_style"
               type="password"
-              required // Add required attribute for validation
+              value={formData.password}
+              onChange={handleChange}
+              required 
             />
           </div>
-          
           <div className="form_options">
             <label className="sub_title" htmlFor="role">
               ¿Que desea en la app?
             </label>
-         <div></div>
-            <select id="role" className="form_style">
+            <div></div>
+            <select id="role" className="form_style" value={formData.role} onChange={handleChange}>
               <option value="trabajador">Quiero buscar trabajo</option>
               <option value="empleador">Quiero encontrar trabajadores</option>
             </select>
@@ -71,6 +128,7 @@ const LoginForm = () => {
             <button className="btn" type="submit">
               CREAR CUENTA
             </button>
+            {error && <p className="error-message">{error}</p>}
           </div>
         </form>
       </div>
@@ -78,4 +136,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegistrationForm;
