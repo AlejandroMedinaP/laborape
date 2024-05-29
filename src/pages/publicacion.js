@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { useRouter } from 'next/router';
 import LogoBar from '@/components/LogoBar';
 
-
 class Formulario extends Component {
   constructor(props) {
     super(props);
@@ -13,35 +12,65 @@ class Formulario extends Component {
       image: null,
       additionalInfo: '',
       deadline: '',
+      location: '',
+      error: null,
     };
   }
 
-  handleInputChange(event) {
+  handleInputChange = (event) => {
     const { name, value } = event.target;
-
-
     this.setState({ [name]: value });
-  }
+  };
 
-  handleImageChange(event) {
+  handleImageChange = (event) => {
     const file = event.target.files[0];
     this.setState({ image: file });
-  }
+  };
 
-  handleSubmit(event) {
-    event.preventDefault();
-    // Aquí puedes agregar la lógica para enviar el formulario
-  }
-
-  handleImageReset() {
+  handleImageReset = () => {
     this.setState({ image: null });
-    document.getElementById('image').value = null; // Resetear el input de archivo
-  }g
+    document.getElementById('image').value = null;
+  };
+
+  async handleSubmit(event) {
+    event.preventDefault();
+    this.setState({ error: null });
+
+    const formData = new FormData();
+    formData.append('task', this.state.task);
+    formData.append('description', this.state.description);
+    formData.append('category', this.state.category);
+    formData.append('location', this.state.location);
+    if (this.state.image) {
+      formData.append('image', this.state.image);
+    }
+    formData.append('additionalInfo', this.state.additionalInfo);
+    formData.append('deadline', this.state.deadline);
+
+    try {
+      const response = await fetch('/api/submit-activity', { // Reemplaza con tu endpoint real
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert("La actividad se ha enviado correctamente");
+        // Puedes redirigir al usuario o mostrar un mensaje de éxito
+        // Ejemplo: router.push('/activities');
+      } else {
+        const errorData = await response.json();
+        this.setState({ error: errorData.message || 'Error al enviar la actividad' });
+      }
+    } catch (error) {
+      this.setState({ error: 'Error en la conexión. Inténtalo de nuevo más tarde.' });
+      console.error(error);
+    }
+  }
 
   render() {
     return (
       <div className="container">
-       <LogoBar></LogoBar>
+        <LogoBar />
         <h1>Envía tu actividad</h1>
         <p>Por este formulario podrás subir la actividad que deseas resolver</p>
         <form className="form" onSubmit={this.handleSubmit.bind(this)}>
@@ -62,7 +91,7 @@ class Formulario extends Component {
               name="description"
               value={this.state.description}
               onChange={this.handleInputChange.bind(this)}
-              rows={6} // Número de filas
+              rows={6}
               placeholder="Escribe la descripción de la actividad"
             />
           </div>
@@ -70,9 +99,9 @@ class Formulario extends Component {
             <label htmlFor="location">Locacion:</label>
             <input
               type="text"
-              id="locacion"
-              name="locacion"
-              value={this.state.locacion}
+              id="location"
+              name="location"
+              value={this.state.location}
               onChange={this.handleInputChange.bind(this)}
             />
           </div>
@@ -89,7 +118,6 @@ class Formulario extends Component {
               <option value="estudios">Electricista</option>
               <option value="estudios">Mecánico</option>
               <option value="estudios">Fontanero</option>
-              {/* Puedes agregar más opciones según tus necesidades */}
             </select>
           </div>
           <div className="form-group">
@@ -99,30 +127,31 @@ class Formulario extends Component {
               id="image"
               name="image"
               accept="image/*"
-              onChange={this.handleImageChange.bind(this)}
+              onChange={this.handleImageChange}
             />
           </div>
           <div className="form-group">
-          <label htmlFor="deadline">Fecha Límite:</label>
-             <input
+            <label htmlFor="deadline">Fecha Límite:</label>
+            <input
               type="date"
               id="deadline"
               name="deadline"
               value={this.state.deadline}
-               onChange={this.handleInputChange}
+              onChange={this.handleInputChange}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="description">Extra:</label>
+            <label htmlFor="additionalInfo">Extra:</label>
             <textarea
-              id="Extra"
-              name="Extra"
-              value={this.state.description}
+              id="additionalInfo" // Cambiar el id
+              name="additionalInfo" // Cambiar el name
+              value={this.state.additionalInfo} // Cambiar el value
               onChange={this.handleInputChange.bind(this)}
-              rows={6} // Número de filas
+              rows={6}
               placeholder="Comenta algo adicional"
-            />
-          </div>
+  />
+</div>
+          {this.state.error && <p className="error-message">{this.state.error}</p>}
           <button type="submit">Enviar</button>
         </form>
         <style jsx>{`
