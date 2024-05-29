@@ -50,7 +50,7 @@ class Formulario extends Component {
     formData.append('fechafin', this.state.fechafin);
 
     try {
-      const response = await fetch('http://localhost:8080/trabajo', { // Reemplaza con tu endpoint real
+      const response = await fetch('localhost:8080/trabajo', { // Reemplaza con tu endpoint real
         method: 'POST',
         body: formData,
       });

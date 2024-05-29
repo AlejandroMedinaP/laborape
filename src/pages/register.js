@@ -5,10 +5,9 @@ const RegistrationForm = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
-    lastname: "",
-    email: "",
-    password: "",
-    role: "trabajador",
+    correo: "",
+    contrasenia: "",
+    roles: "trabajador",
   });
   const [error, setError] = useState(null);
 
@@ -20,14 +19,8 @@ const RegistrationForm = () => {
     e.preventDefault();
     setError(null);
 
-    // Validación básica (puedes agregar más validaciones según tus requisitos)
-    if (!formData.name || !formData.lastname || !formData.email || !formData.password) {
-      setError("Por favor, complete todos los campos.");
-      return;
-    }
-
     try {
-      const response = await fetch("/api/register", { // Reemplaza con tu endpoint real
+      const response = await fetch("localhost:8080/cliente", { // Reemplaza con tu endpoint real
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -60,7 +53,7 @@ const RegistrationForm = () => {
           {/* Campos del formulario */}
           <div className="form_group">
             <label className="sub_title" htmlFor="name">
-              Nombre
+              Nombre Completo
             </label>
             <input
               placeholder="Introduzca su nombre"
@@ -73,53 +66,39 @@ const RegistrationForm = () => {
             />
           </div>
           <div className="form_group">
-            <label className="sub_title" htmlFor="lastname">
-              Apellido
+            <label className="sub_title" htmlFor="correo">
+              correo
             </label>
             <input
-              placeholder="Introduzca su apellido"
-              id="lastname" 
+              placeholder="Introduzca un correo"
+              id="correo"
               className="form_style"
-              type="text" 
-              value={formData.lastname}
+              type="correo"
+              value={formData.correo}
               onChange={handleChange}
               required 
             />
           </div>
           <div className="form_group">
-            <label className="sub_title" htmlFor="email">
-              Email
-            </label>
-            <input
-              placeholder="Introduzca un email"
-              id="email"
-              className="form_style"
-              type="email"
-              value={formData.email}
-              onChange={handleChange}
-              required 
-            />
-          </div>
-          <div className="form_group">
-            <label className="sub_title" htmlFor="password">
+            <label className="sub_title" htmlFor="contrasenia">
               Contraseña
             </label>
             <input
               placeholder="Introduzca una contraseña"
-              id="password"
+              id="contrasenia"
               className="form_style"
               type="password"
-              value={formData.password}
+              value={formData.contrasenia}
               onChange={handleChange}
               required 
             />
           </div>
           <div className="form_options">
-            <label className="sub_title" htmlFor="role">
+            <label className="sub_title" htmlFor="roles">
               ¿Que desea en la app?
             </label>
             <div></div>
-            <select id="role" className="form_style" value={formData.role} onChange={handleChange}>
+            <select id="roles" className="form_style" value={formData.roles} onChange={handleChange}>
               <option value="trabajador">Quiero buscar trabajo</option>
               <option value="empleador">Quiero encontrar trabajadores</option>
             </select>
