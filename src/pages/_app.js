@@ -1,9 +1,9 @@
 import React from 'react';
 import { AppProvider } from '../context/AppContext';
-import '../styles/login.css';
-import '../styles/register.css';
-import '../styles/postulacionFree.css';
-import '../styles/barra.css';
+import '../styles/global/login.css';
+import '../styles/global/register.css';
+import '../styles/global/postulacionFree.css';
+import '../styles/global/barra.css';
 
 function MyApp({ Component, pageProps }) {
     return (

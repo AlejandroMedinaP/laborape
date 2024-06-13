@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'next/router'; // Se cambia a withRouter para clases
-import LogoBar from '@/components/LogoBar';
+import LogoBar from '@/components/layout/LogoBar';
 
 class Formulario extends Component {
   constructor(props) {

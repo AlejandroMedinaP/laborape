@@ -1,21 +1,21 @@
 import React from 'react';
 
-const LogoBar = () => {
+const LogoBarFreelance = () => {
   return (
     <div className="logo-bar">
       {/* Logo */}
       <div className="logo">
-        <img  src={`/imagenes/Labora.png`} style={{ width: '150px', height: '70px', objectFit: 'cover' }} />
+        <img src={`/imagenes/Labora.png`} style={{ width: '150px', height: '70px', objectFit: 'cover' }} />
       </div>
 
       {/* Enlaces de Navegación */}
       <nav>
         <ul>
           <li>
-            <a href="http://localhost:3000/publicacion">Publica tu actividad</a>
+            <a href="http://localhost:3000/propuestas">Ver trabajos</a>
           </li>
           <li>
-            <a href="http://localhost:3000/visualizacionPropuestas">Ver Propuestas</a>
+            <a href="http://localhost:3000/propuestas">Mis Perfil tecnico</a>
           </li>
           <li>
             <a href="#">Mis Trabajos</a>
@@ -31,4 +31,4 @@ const LogoBar = () => {
   );
 };
 
-export default LogoBar;
+export default LogoBarFreelance;

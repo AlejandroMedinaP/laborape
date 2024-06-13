@@ -4,79 +4,110 @@ import { useRouter } from "next/router";
 const RegistrationForm = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    name: "",
+    nombre: "",
     correo: "",
     contrasenia: "",
-    roles: "trabajador",
+    rol: "CLIENTE", // Valor por defecto CLIENTE
   });
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // Estado de carga
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setIsLoading(true); // Iniciar carga
+
+    // Validación básica en el frontend
+    if (!formData.nombre || !formData.correo || !formData.contrasenia) {
+      setError("Por favor, completa todos los campos.");
+      setIsLoading(false); // Finalizar carga si hay error
+      return;
+    }
 
     try {
-      const response = await fetch("localhost:8080/cliente", { // Reemplaza con tu endpoint real
+      const response = await fetch("http://localhost:8080/usuarios", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        // Registro exitoso
         const data = await response.json();
-        router.push("/login"); // Redirige al login (o a donde quieras)
+
+        if (data.rol === "FREELANCER") {
+          // Registrar como freelancer
+          await fetch("http://localhost:8080/freelancers", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                  idusuario: data.idusuario, 
+                  // Opcional, puedes agregar más campos si es necesario:
+                  // calificacion: 0.0, 
+                  // descripcion: "", 
+                  // habilidades: "" 
+              }),
+          });
+      } else if (data.rol === "CLIENTE") {
+        // Registrar como cliente
+        await fetch("http://localhost:8080/clientes", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ idusuario: data.idusuario }), 
+        });
+      } 
+
+        router.push("/login");
       } else {
-        // Error en el registro
         const errorData = await response.json();
-        if (errorData.code === "ER_DUP_ENTRY") {
-          setError("El correo electrónico ya está registrado.");
-        } else {
-          setError(errorData.message || "Ocurrió un error durante el registro.");
-        }
+        setError(errorData.message || "Ocurrió un error durante el registro.");
       }
     } catch (error) {
-      setError("Ocurrió un error durante el registro. Por favor, inténtelo de nuevo más tarde.");
+      setError(
+        "Error al registrarse. Inténtalo de nuevo más tarde."
+      );
       console.error(error);
+    } finally {
+      setIsLoading(false); // Finalizar carga en cualquier caso
     }
   };
+
 
   return (
     <div className="container">
       <div className="form_area">
         <p className="title">REGISTRO</p>
         <form onSubmit={handleSubmit}>
-          {/* Campos del formulario */}
+          {/* Campos del formulario (nombre, correo, contraseña) */}
           <div className="form_group">
-            <label className="sub_title" htmlFor="name">
+            <label className="sub_title" htmlFor="nombre">
               Nombre Completo
             </label>
             <input
               placeholder="Introduzca su nombre"
               className="form_style"
               type="text"
-              id="name"
-              value={formData.name}
+              name="nombre"
+              value={formData.nombre}
               onChange={handleChange}
               required
             />
           </div>
           <div className="form_group">
             <label className="sub_title" htmlFor="correo">
-              correo
+              Correo
             </label>
             <input
               placeholder="Introduzca un correo"
-              id="correo"
               className="form_style"
-              type="correo"
+              type="email"
+              name="correo"
               value={formData.correo}
               onChange={handleChange}
-              required 
+              required
             />
           </div>
           <div className="form_group">
@@ -85,24 +116,32 @@ const RegistrationForm = () => {
             </label>
             <input
               placeholder="Introduzca una contraseña"
-              id="contrasenia"
               className="form_style"
               type="password"
+              name="contrasenia"
               value={formData.contrasenia}
               onChange={handleChange}
-              required 
+              required
             />
           </div>
-          <div className="form_options">
-            <label className="sub_title" htmlFor="roles">
-              ¿Que desea en la app?
+
+          {/* Selección de Rol (con estilo corregido) */}
+          <div className="form_group"> 
+            <label className="sub_title" htmlFor="rol">
+              ¿Qué desea en la app?
             </label>
-            <div></div>
-            <select id="roles" className="form_style" value={formData.roles} onChange={handleChange}>
-              <option value="trabajador">Quiero buscar trabajo</option>
-              <option value="empleador">Quiero encontrar trabajadores</option>
+            <select
+              name="rol"
+              id="rolSelect" 
+              className="form_style"
+              value={formData.rol}
+              onChange={handleChange}
+            >
+              <option value="CLIENTE">Cliente</option>
+              <option value="FREELANCER">Freelancer</option>
             </select>
           </div>
+
           <div>
             <button className="btn" type="submit">
               CREAR CUENTA

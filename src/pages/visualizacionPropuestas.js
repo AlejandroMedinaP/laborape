@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Box, Grid, Pagination } from '@mui/material';
-import PropuestaCard from '@/components/PropuestaCard';
-import DetalleContratacion from '@/components/DetalleContratacion';
-import LogoBar from '@/components/LogoBar';
+import PropuestaCard from '@/components/propuestas/PropuestaCard';
+import DetalleContratacion from '@/components/propuestas/DetalleContratacion';
+import LogoBar from '@/components/layout/LogoBar';
 import React, { Component } from 'react';
 
 const itemsPerPage = 4;

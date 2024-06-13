@@ -6,8 +6,7 @@
     border: 1px solid #ccc; /* Borde del contenedor */
     border-radius: 5px; /* Bordes redondeados */
     background-color: #f9f9f9; /* Color de fondo */
-  }
-  
+  } 
   /* Estilos para el título de los filtros */
   .filtros-title {
     margin-bottom: 10px; /* Espacio inferior */
