@@ -6,11 +6,11 @@ import '../styles/global/postulacionFree.css';
 import '../styles/global/barra.css';
 
 function MyApp({ Component, pageProps }) {
-    return (
-      <AppProvider>
-        <Component {...pageProps} />;
-      </AppProvider>
-    )
-  }
-  
-  export default MyApp;
+  return (
+    <AppProvider>
+      <Component {...pageProps} />
+    </AppProvider>
+  );
+}
+
+export default MyApp;

@@ -1,21 +1,14 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { useRouter } from "next/router";
-import { AppContext } from '@/context/AppContext';
-import Link from 'next/link';
+import { AppContext } from "@/context/AppContext";
+import Link from "next/link";
 
 const LoginForm = () => {
   const router = useRouter();
   const { setUser } = useContext(AppContext);
   const [formData, setFormData] = useState({ correo: "", contrasenia: "" });
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false); 
-
-  useEffect(() => {
-    const usuario = JSON.parse(localStorage.getItem('usuario'));
-    if (usuario) {
-        router.push(usuario.rol === 'CLIENTE' ? '/visualizacionPropuestas' : '/propuestas');
-    }
-}, []);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -24,10 +17,10 @@ const LoginForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    setIsLoading(true); 
+    setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:8080/usuarios/login", { 
+      const response = await fetch("http://localhost:8080/usuarios/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -37,10 +30,10 @@ const LoginForm = () => {
         const userData = await response.json();
         setUser(userData);
         localStorage.setItem('usuario', JSON.stringify(userData));
-    
-        // Redirección después de recibir la respuesta exitosa
-        router.push(userData.rol === 'CLIENTE' ? '/visualizacionPropuestas' : '/propuestas');
-    }else {
+
+        // Redireccionar según el rol del usuario
+        router.push(userData.rol === 'CLIENTE' ? '/visualizacionPropuestas' : '/propuestas'); 
+      } else {
         const errorData = await response.json(); 
         setError(errorData.error || "Credenciales incorrectas"); 
       }
@@ -51,8 +44,6 @@ const LoginForm = () => {
       setIsLoading(false); 
     }
   };
-
-
 
   return (
     <div className="container">
@@ -75,12 +66,12 @@ const LoginForm = () => {
             />
           </div>
           <div className="form_group">
-            <label className="sub_title" htmlFor="password">
+            <label className="sub_title" htmlFor="contrasenia">
               Contraseña
             </label>
             <input
               placeholder="Ingrese su contraseña"
-              id="contrasenia" // Corregir el ID para que coincida con el backend
+              id="contrasenia" 
               className="form_style"
               type="password"
               value={formData.contrasenia}
