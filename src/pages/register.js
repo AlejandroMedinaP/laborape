@@ -11,11 +11,7 @@ const RegistrationForm = () => {
     nombre: "",
     correo: "",
     contrasenia: "",
-<<<<<<< HEAD
-    roles: "",
-=======
     rol: "CLIENTE", // Valor por defecto CLIENTE
->>>>>>> aecef71a1932a3a7abbc1ba6e5d9be86b1a6d8db
   });
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // Estado de carga
@@ -31,71 +27,56 @@ const RegistrationForm = () => {
 
     // Validación básica en el frontend
     if (!formData.nombre || !formData.correo || !formData.contrasenia) {
-      setError("Por favor, completa todos los campos.");
-      setIsLoading(false); // Finalizar carga si hay error
-      return;
+        setError("Por favor, completa todos los campos.");
+        setIsLoading(false); // Finalizar carga si hay error
+        return;
     }
 
     try {
-<<<<<<< HEAD
-      /* const headers = new Headers();
-      headers.set('Authorization', 'Basic ' + btoa(username + ':' + password));
-      headers.set('Content-Type', 'application/json'); */
-      const response = await register(formData);
-      //const data = response.data;
-      console.log("data", data)
-      if (response.ok) {
-        // Registro exitoso
-        //const data = await response.json();
-        console.log("OK")
-        router.push("/login"); // Redirige al login (o a donde quieras)
-=======
-      const response = await fetch("http://localhost:8080/usuarios", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-
-        if (data.rol === "FREELANCER") {
-          // Registrar como freelancer
-          await fetch("http://localhost:8080/freelancers", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                  idusuario: data.idusuario, 
-                  // Opcional, puedes agregar más campos si es necesario:
-                  // calificacion: 0.0, 
-                  // descripcion: "", 
-                  // habilidades: "" 
-              }),
-          });
-      } else if (data.rol === "CLIENTE") {
-        // Registrar como cliente
-        await fetch("http://localhost:8080/clientes", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ idusuario: data.idusuario }), 
+        const response = await fetch("http://localhost:8080/usuarios", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData),
         });
-      } 
 
-        router.push("/login");
->>>>>>> aecef71a1932a3a7abbc1ba6e5d9be86b1a6d8db
-      } else {
-        const errorData = await response.json();
-        setError(errorData.message || "Ocurrió un error durante el registro.");
-      }
+        if (response.ok) {
+            const data = await response.json();
+
+            if (data.rol === "FREELANCER") {
+                // Registrar como freelancer
+                await fetch("http://localhost:8080/freelancers", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        idusuario: data.idusuario, 
+                        // Opcional, puedes agregar más campos si es necesario:
+                        // calificacion: 0.0, 
+                        // descripcion: "", 
+                        // habilidades: "" 
+                    }),
+                });
+            } else if (data.rol === "CLIENTE") {
+                // Registrar como cliente
+                await fetch("http://localhost:8080/clientes", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ idusuario: data.idusuario }), 
+                });
+            } 
+
+            router.push("/login");
+        } else {
+            const errorData = await response.json();
+            setError(errorData.message || "Ocurrió un error durante el registro.");
+        }
     } catch (error) {
-      setError(
-        "Error al registrarse. Inténtalo de nuevo más tarde."
-      );
-      console.error(error);
+        setError("Error al registrarse. Inténtalo de nuevo más tarde.");
+        console.error(error);
     } finally {
-      setIsLoading(false); // Finalizar carga en cualquier caso
+        setIsLoading(false); // Finalizar carga en cualquier caso
     }
-  };
+};
+
 
 
   return (
