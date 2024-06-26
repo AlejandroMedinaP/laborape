@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { register } from "@/services/userService";
+
+const username = 'user';
+const password = '67c7122a-25c3-4f87-aee6-4680a5bfd111';
 
 const RegistrationForm = () => {
   const router = useRouter();
@@ -7,7 +11,11 @@ const RegistrationForm = () => {
     nombre: "",
     correo: "",
     contrasenia: "",
+<<<<<<< HEAD
+    roles: "",
+=======
     rol: "CLIENTE", // Valor por defecto CLIENTE
+>>>>>>> aecef71a1932a3a7abbc1ba6e5d9be86b1a6d8db
   });
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // Estado de carga
@@ -29,6 +37,19 @@ const RegistrationForm = () => {
     }
 
     try {
+<<<<<<< HEAD
+      /* const headers = new Headers();
+      headers.set('Authorization', 'Basic ' + btoa(username + ':' + password));
+      headers.set('Content-Type', 'application/json'); */
+      const response = await register(formData);
+      //const data = response.data;
+      console.log("data", data)
+      if (response.ok) {
+        // Registro exitoso
+        //const data = await response.json();
+        console.log("OK")
+        router.push("/login"); // Redirige al login (o a donde quieras)
+=======
       const response = await fetch("http://localhost:8080/usuarios", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -61,6 +82,7 @@ const RegistrationForm = () => {
       } 
 
         router.push("/login");
+>>>>>>> aecef71a1932a3a7abbc1ba6e5d9be86b1a6d8db
       } else {
         const errorData = await response.json();
         setError(errorData.message || "Ocurrió un error durante el registro.");

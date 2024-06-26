@@ -1,4 +1,4 @@
-export const getPropuestas = async (url) => {
+/* export const getPropuestas = async (url) => {
     try {
       const response = await fetch(url, {
         method: 'GET',
@@ -15,14 +15,18 @@ export const getPropuestas = async (url) => {
       console.error('Error:', error);
       throw error;
     }
-};
-
+}; */
+/* 
 export const enviarPropuesta = async (url, body) => {
     try {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
+<<<<<<< HEAD
           'Content-Type': 'http://localhost:3000/api/propuestas/',
+=======
+          'Content-Type': 'http://localhost:3000/api/propuestas/enviar',
+>>>>>>> 5b157e14505d0a53f5d5fb8d5d3b8f333c5a8590
         },
         body
       });
@@ -35,4 +39,4 @@ export const enviarPropuesta = async (url, body) => {
       console.error('Error:', error);
       throw error;
     }
-};
+}; */

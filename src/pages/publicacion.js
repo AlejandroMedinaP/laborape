@@ -59,12 +59,15 @@ const Formulario = () => {
     }
 
     try {
-        const response = await fetch("http://localhost:8080/trabajos", {
-            method: "POST",
-            body: trabajoData
-        });
+      const response = await fetch("http://localhost:8080/trabajos", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(trabajoData)
+    });
 
-        setIsLoading(false);
+      setIsLoading(false);
 
         if (response.ok) {
             alert("La actividad se ha enviado correctamente");

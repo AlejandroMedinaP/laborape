@@ -8,39 +8,73 @@ import DetallePropuesta from "@/components/propuestas/DetallePropuesta";
 
 const itemsPerPage = 4;
 
-const Propuestas = () => {
-  const { user } = useContext(AppContext); // Obtén el usuario del contexto
-  const [propuestas, setPropuestas] = useState([]);
-  const [page, setPage] = useState(1);
-  const [openMasDetalle, setOpenMasDetalle] = useState(false);
-  const [propuestaSelected, setPropuestaSelected] = useState({});
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchPropuestas = async () => {
-      try {
-        const response = await getPropuestas();
-        if (response.ok) {
-          setPropuestas(response.data);
-        } else {
-          throw new Error("Error al obtener propuestas");
-        }
-      } catch (error) {
-        console.error("Error al cargar las propuestas:", error);
-        setError(
-          "No se pudieron cargar las propuestas. Por favor, inténtalo de nuevo más tarde."
-        );
-      } finally {
-        setIsLoading(false);
-      }
+class Propuestas extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      page: 1,
+      openMasDetalle: false,
+      propuestaSelected: {},
+      propuestas: [
+        {
+          id: 1,
+          imagen: 'grieta.jpg',
+          nombre: 'Albañilería - Reparación de Pared Agrietada',
+          descripcion: 'Hola, necesito ayuda urgente con una de las paredes de mi casa. Noté que hay varias grietas que han ido creciendo con el tiempo. La pared está en una habitación que usamos frecuentemente y me preocupa que esto pueda empeorar y comprometer la estructura. No solo es un problema estético, sino que temo que pueda haber problemas más serios detrás de estas grietas. Necesito que alguien venga a evaluarlo y me dé una solución para repararlo lo antes posible'
+        },
+        {
+          id: 2,
+          imagen: 'descascarado.jpg',
+          nombre: 'Pintura - Pintura Descascarada en la Fachada',
+          descripcion: "Buenos días, tengo un problema con la pintura de la fachada de mi casa. La pintura se está descascarando en varias áreas y se ve realmente mal. Vivimos cerca del mar, así que la salinidad y la humedad han acelerado el deterioro. Quiero que la fachada vuelva a lucir bien, pero también necesito que la nueva pintura sea resistente a estas condiciones. Estoy buscando a un profesional que pueda raspar la pintura vieja, preparar adecuadamente la superficie y aplicar una pintura de calidad que dure más tiempo."
+        },
+        {
+          id: 3,
+          imagen: 'goteo.jpg',
+          nombre: 'Fontanería - Goteo en el Lavabo del Baño',
+          descripcion: 'Hola, tengo un problema con el lavabo del baño. La llave del agua gotea constantemente, incluso cuando está cerrada. El sonido del goteo es molesto y me preocupa el desperdicio de agua. He intentado apretar la llave yo mismo, pero no ha funcionado. Necesito que un fontanero venga a revisar y arreglar este problema lo antes posible. No quiero que el goteo cause algún daño mayor o que la factura de agua siga subiendo por esto'
+        },
+        {
+          id: 4,
+          imagen: 'logoLA.jpg',
+          nombre: 'Nombre Propuesta 4',
+          descripcion: 'Descripción breve de la Propuesta 4'
+        },
+        {
+          id: 5,
+          imagen: '../Imagenes/logoLA.jpg',
+          nombre: 'Nombre Propuesta 5',
+          descripcion: 'Descripción breve de la Propuesta 5'
+        },
+        {
+          id: 6,
+          imagen: '../Imagenes/logoLA.jpg',
+          nombre: 'Nombre Propuesta 6',
+          descripcion: 'Descripción breve de la Propuesta 6'
+        },
+        // Puedes agregar más propuestas según sea necesario
+      ],
+      propuestaEnviada: {},
     };
+  }
 
-    fetchPropuestas();
-  }, []);
+  componentDidMount() {
+    this.fetchPropuestas();
+  }
 
-  const handleChangePage = (event, value) => {
-    setPage(value);
+  fetchPropuestas = async () => {
+    try {
+      const response = await getPropuestas('C:\Users\leona\OneDrive\Escritorio\LaboraPe\laborape\src\services\propuestas.json');
+      if (response) {
+        this.setState({ propuestas: response.data });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  handleChangePage = (event, value) => {
+    this.setState({ page: value });
   };
 
   const handleVerDetalle = (id) => {
@@ -52,7 +86,7 @@ const Propuestas = () => {
     setOpenMasDetalle(false);
   };
 
-  const handleEnviarPropuesta = async (propuestaData) => {
+  enviarPropuesta = async () => {
     try {
       // Agregar el id del freelancer a los datos de la propuesta
       propuestaData.idfreelancer = user.idusuario; // Suponiendo que el id del usuario está en el contexto
@@ -70,7 +104,12 @@ const Propuestas = () => {
       setError("Error al enviar la propuesta. Inténtalo de nuevo más tarde.");
       console.error(error);
     }
-  };
+  }
+
+  render() {
+    const { page, openMasDetalle, propuestaSelected, propuestas } = this.state;
+    const totalPages = Math.ceil(propuestas.length / itemsPerPage);
+    //const currentItems = propuestas.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   return (
     <div className="container">
@@ -111,16 +150,15 @@ const Propuestas = () => {
             />
           </Box>
         </Box>
-      )}
-
-      <DetallePropuesta
-        open={openMasDetalle}
-        handleClose={handleCloseDetalle}
-        propuesta={propuestaSelected}
-        enviar={enviarPropuesta} 
-      />
-    </div>
-  );
-};
+        <DetallePropuesta 
+          open={openMasDetalle}
+          handleClose={this.handleCloseDetalle}
+          propuesta={propuestaSelected}
+          enviar={this.enviarPropuesta}
+        />
+      </div>
+    );
+  }
+}
 
 export default Propuestas;
