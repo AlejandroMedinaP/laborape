@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { register } from "@/services/userService";
+
+const username = 'user';
+const password = '67c7122a-25c3-4f87-aee6-4680a5bfd111';
 
 const RegistrationForm = () => {
   const router = useRouter();
@@ -7,7 +11,7 @@ const RegistrationForm = () => {
     name: "",
     correo: "",
     contrasenia: "",
-    roles: "trabajador",
+    roles: "",
   });
   const [error, setError] = useState(null);
 
@@ -20,15 +24,16 @@ const RegistrationForm = () => {
     setError(null);
 
     try {
-      const response = await fetch("localhost:8080/cliente", { // Reemplaza con tu endpoint real
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-
+      /* const headers = new Headers();
+      headers.set('Authorization', 'Basic ' + btoa(username + ':' + password));
+      headers.set('Content-Type', 'application/json'); */
+      const response = await register(formData);
+      //const data = response.data;
+      console.log("data", data)
       if (response.ok) {
         // Registro exitoso
-        const data = await response.json();
+        //const data = await response.json();
+        console.log("OK")
         router.push("/login"); // Redirige al login (o a donde quieras)
       } else {
         // Error en el registro

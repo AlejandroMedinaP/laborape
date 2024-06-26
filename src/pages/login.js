@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import react from 'react';
 import Head from "next/head";
+import Link from "next/link";
 
 
 
@@ -45,9 +46,9 @@ const LoginForm = () => {
               </a>
             </p>
               <p>
-                <a className="link" href="/register">
+                <Link className="link" href="/register">
                 CREAR NUEVA CUENTA
-                </a>
+                </Link>
               </p>
             </div>
           </form>

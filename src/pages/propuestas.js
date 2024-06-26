@@ -3,7 +3,6 @@ import { Box, Grid, Pagination } from '@mui/material';
 import PropuestaCard from '@/components/PropuestaCard';
 import LogoBar from '@/components/LogoBar';
 import DetallePropuesta from '@/components/DetallePropuesta';
-import { getPropuestas, enviarPropuesta } from '@/services/propuestaService';
 
 const itemsPerPage = 4;
 
@@ -58,19 +57,19 @@ class Propuestas extends Component {
   }
 
   componentDidMount() {
-    this.fetchPropuestas();
+    //this.fetchPropuestas();
   }
 
-  fetchPropuestas = async () => {
+  /* fetchPropuestas = async () => {
     try {
-      const response = await getPropuestas('C:\Users\leona\OneDrive\Escritorio\LaboraPe\laborape\src\services\propuestas.json');
+      const response = await getPropuestas('..\services\propuestas.json');
       if (response) {
         this.setState({ propuestas: response.data });
       }
     } catch (error) {
       console.error('Error:', error);
     }
-  };
+  }; */
 
   handleChangePage = (event, value) => {
     this.setState({ page: value });
@@ -87,7 +86,7 @@ class Propuestas extends Component {
     this.setState({ openMasDetalle: false });
   };
 
-  enviarPropuesta = async () => {
+  /* enviarPropuesta = async () => {
     try {
       const body = { };
       const response = await enviarPropuesta('/api/propuestas/enviar', body);
@@ -97,7 +96,7 @@ class Propuestas extends Component {
     } catch (error) {
       console.error('Error:', error);
     }
-  }
+  } */
 
   render() {
     const { page, openMasDetalle, propuestaSelected, propuestas } = this.state;
@@ -137,7 +136,7 @@ class Propuestas extends Component {
           open={openMasDetalle}
           handleClose={this.handleCloseDetalle}
           propuesta={propuestaSelected}
-          enviar={this.enviarPropuesta}
+          //enviar={this.enviarPropuesta}
         />
       </div>
     );
