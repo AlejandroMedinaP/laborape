@@ -1,7 +1,7 @@
 // apiService.js
 import axios from 'axios'; // Si decides usar Axios, asegúrate de instalarlo con 'npm install axios'
 
-const API_URL = 'http://localhost:3100/api'; // Reemplaza con la URL de tu API real
+const API_URL = 'http://localhost:3000/api'; // Reemplaza con la URL de tu API real
 
 export const getPropuestas = async () => {
   try {

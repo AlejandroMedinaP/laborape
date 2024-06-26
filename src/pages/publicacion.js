@@ -32,61 +32,60 @@ const Formulario = () => {
     setError(null);
     setIsLoading(true);
 
-    if (!user) { // Verificar si el usuario está autenticado
-      setError("Debes iniciar sesión para publicar una actividad.");
-      setIsLoading(false);
-      return;
+    if (!user) {
+        setError("Debes iniciar sesión para publicar una actividad.");
+        setIsLoading(false);
+        return;
     }
 
     const idcliente = user.idusuario;
     const fechaFinISO = formData.fechafin
-      ? new Date(formData.fechafin).toISOString().split("T")[0]
-      : null;
+        ? new Date(formData.fechafin).toISOString().split("T")[0]
+        : null;
 
     const trabajoData = new FormData();
-    trabajoData.append("idcliente", idcliente);
-    trabajoData.append("titulo", formData.titulo);
-    trabajoData.append("descripcion", formData.descripcion);
-    trabajoData.append("categoria", formData.categoria);
-    trabajoData.append("ubicacion", formData.ubicacion);
-    trabajoData.append("fechaLimite", fechaFinISO);
-    trabajoData.append("estado", "ABIERTO");
-    trabajoData.append("presupuesto", 0);
+    trabajoData.append("trabajoData", JSON.stringify({
+        idcliente: idcliente,
+        titulo: formData.titulo,
+        descripcion: formData.descripcion,
+        categoria: formData.categoria,
+        ubicacion: formData.ubicacion,
+        fechaLimite: fechaFinISO,
+        estado: "ABIERTO",
+        presupuesto: 0
+    }));
     if (formData.imagen) {
-      trabajoData.append("imagen", formData.imagen);
+        trabajoData.append("imagen", formData.imagen);
     }
 
     try {
-      const response = await fetch("http://localhost:8080/trabajos", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(trabajoData)
-    });
-
-      setIsLoading(false);
-
-      if (response.ok) {
-        alert("La actividad se ha enviado correctamente");
-        router.push("/visualizacionPropuestas");
-        setFormData({
-          titulo: "",
-          descripcion: "",
-          categoria: "Selecciona",
-          imagen: null,
-          fechafin: "",
-          ubicacion: "",
+        const response = await fetch("http://localhost:8080/trabajos", {
+            method: "POST",
+            body: trabajoData
         });
-      } else {
-        const errorData = await response.json();
-        setError(errorData.error || "Error al enviar la actividad");
-      }
+
+        setIsLoading(false);
+
+        if (response.ok) {
+            alert("La actividad se ha enviado correctamente");
+            router.push("/visualizacionPropuestas");
+            setFormData({
+                titulo: "",
+                descripcion: "",
+                categoria: "Selecciona",
+                imagen: null,
+                fechafin: "",
+                ubicacion: "",
+            });
+        } else {
+            const errorData = await response.json();
+            setError(errorData.error || "Error al enviar la actividad");
+        }
     } catch (error) {
-      setError("Error en la conexión. Inténtalo de nuevo más tarde.");
-      console.error(error);
+        setError("Error en la conexión. Inténtalo de nuevo más tarde.");
+        console.error(error);
     }
-  };
+};
   return (
     <div className="container">
       <LogoBar />

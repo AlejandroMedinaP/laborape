@@ -22,7 +22,7 @@ export const enviarPropuesta = async (url, body) => {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'http://localhost:3001/api/propuestas/',
+          'Content-Type': 'http://localhost:3000/api/propuestas/',
         },
         body
       });
