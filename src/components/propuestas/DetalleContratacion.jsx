@@ -1,7 +1,7 @@
 import { Button, Box, Typography, Modal, IconButton, TextareaAutosize } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-const DetallePropuesta = (props) => {
+const DetalleContratacion = (props) => {
     const {open, handleClose, propuesta} = props;
 
     return (
@@ -53,4 +53,4 @@ const DetallePropuesta = (props) => {
     )
 }
 
-export default DetallePropuesta;
+export default DetalleContratacion;

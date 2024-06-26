@@ -1,8 +1,10 @@
-import React, { Component } from 'react';
-import { Box, Grid, Pagination } from '@mui/material';
-import PropuestaCard from '@/components/PropuestaCard';
-import LogoBar from '@/components/LogoBar';
-import DetallePropuesta from '@/components/DetallePropuesta';
+import React, { useEffect, useState, useContext } from "react";
+import { Box, Grid, Pagination, CircularProgress, Alert } from "@mui/material";
+import { AppContext } from "@/context/AppContext";
+import { getPropuestas, enviarPropuesta } from "@/services/apiService";
+import PropuestaCard from "@/components/propuestas/PropuestaCard";
+import LogoBar from "@/components/layout/LogoBar";
+import DetallePropuesta from "@/components/propuestas/DetallePropuesta";
 
 const itemsPerPage = 4;
 
@@ -57,77 +59,93 @@ class Propuestas extends Component {
   }
 
   componentDidMount() {
-    //this.fetchPropuestas();
+    this.fetchPropuestas();
   }
 
-  /* fetchPropuestas = async () => {
+  fetchPropuestas = async () => {
     try {
-      const response = await getPropuestas('..\services\propuestas.json');
+      const response = await getPropuestas('C:\Users\leona\OneDrive\Escritorio\LaboraPe\laborape\src\services\propuestas.json');
       if (response) {
         this.setState({ propuestas: response.data });
       }
     } catch (error) {
       console.error('Error:', error);
     }
-  }; */
+  };
 
   handleChangePage = (event, value) => {
     this.setState({ page: value });
   };
 
-  handleVerDetalle = (id) => {
-    this.setState({
-      openMasDetalle: true,
-      propuestaSelected: this.state.propuestas.find((propuesta) => propuesta.id === id) || {},
-    });
+  const handleVerDetalle = (id) => {
+    setOpenMasDetalle(true);
+    setPropuestaSelected(propuestas.find((propuesta) => propuesta.id === id) || {});
   };
 
-  handleCloseDetalle = () => {
-    this.setState({ openMasDetalle: false });
+  const handleCloseDetalle = () => {
+    setOpenMasDetalle(false);
   };
 
-  /* enviarPropuesta = async () => {
+  enviarPropuesta = async () => {
     try {
-      const body = { };
-      const response = await enviarPropuesta('/api/propuestas/enviar', body);
-      if (response) {
-        this.setState({ propuestaEnviada: response.data });
+      // Agregar el id del freelancer a los datos de la propuesta
+      propuestaData.idfreelancer = user.idusuario; // Suponiendo que el id del usuario está en el contexto
+
+      const response = await enviarPropuesta(propuestaData);
+      if (response.ok) {
+        console.log("Propuesta enviada con éxito");
+        handleCloseDetalle(); 
+        // Aquí puedes actualizar la lista de propuestas si es necesario
+      } else {
+        const errorData = await response.json();
+        setError(errorData.error || "Error al enviar la propuesta");
       }
     } catch (error) {
-      console.error('Error:', error);
+      setError("Error al enviar la propuesta. Inténtalo de nuevo más tarde.");
+      console.error(error);
     }
-  } */
+  }
 
   render() {
     const { page, openMasDetalle, propuestaSelected, propuestas } = this.state;
     const totalPages = Math.ceil(propuestas.length / itemsPerPage);
     //const currentItems = propuestas.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
-    return (
-      <div className="container">
-        <LogoBar />
-        <h1>Propuestas de trabajo</h1>
+  return (
+    <div className="container">
+      <LogoBar />
+      <h1>Propuestas de trabajo</h1>
+
+      {isLoading ? ( 
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
+          <CircularProgress /> {/* Indicador de carga */}
+        </Box>
+      ) : error ? ( // Mostrar mensaje de error si hay un error
+        <Alert severity="error">{error}</Alert>
+      ) : (
         <Box sx={{ padding: 2 }}>
           <Grid container spacing={2}>
-            {propuestas.filter( (c, index) => (page-1)*itemsPerPage <= index && index < page*itemsPerPage).map((item, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <Box sx={{ border: '1px solid grey', padding: 2, borderRadius: 2 }}>
-                  <PropuestaCard
-                    id={item.id}
-                    nombre={item.nombre}
-                    descripcion={item.descripcion}
-                    image={`/imagenes/${item.imagen}`}
-                    detalle={() => this.handleVerDetalle(item.id)}
-                  />
-                </Box>
-              </Grid>
-            ))}
+            {propuestas
+              .filter((c, index) => (page - 1) * itemsPerPage <= index && index < page * itemsPerPage)
+              .map((item, index) => (
+                <Grid item xs={12} sm={6} md={3} key={index}>
+                  <Box sx={{ border: '1px solid grey', padding: 2, borderRadius: 2 }}>
+                    <PropuestaCard
+                      id={item.id}
+                      nombre={item.titulo} // Cambiado a 'titulo' para que coincida con el backend
+                      descripcion={item.descripcion}
+                      image={`/imagenes/${item.imagen}`}
+                      detalle={() => handleVerDetalle(item.id)}
+                    />
+                  </Box>
+                </Grid>
+              ))}
           </Grid>
           <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: 2 }}>
             <Pagination
-              count={totalPages}
+              count={Math.ceil(propuestas.length / itemsPerPage)}
               page={page}
-              onChange={this.handleChangePage}
+              onChange={handleChangePage}
               color="primary"
             />
           </Box>
@@ -136,7 +154,7 @@ class Propuestas extends Component {
           open={openMasDetalle}
           handleClose={this.handleCloseDetalle}
           propuesta={propuestaSelected}
-          //enviar={this.enviarPropuesta}
+          enviar={this.enviarPropuesta}
         />
       </div>
     );
