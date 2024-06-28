@@ -1,0 +1,71 @@
+/* formulario.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow-y: hidden; /* Oculta el scroll vertical */
+  }
+  
+/* formulario.css */
+.form-container {
+    max-width: 600px;
+    margin: 110px auto 0 auto; /* Añade un margen superior para separar el formulario de la barra de navegación */
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: #0070f3;
+  }
+  
+  button {
+    background-color: #0070f3;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: #005bb5;
+  }
+  
+  .error {
+    color: red;
+    margin-top: 10px;
+  }
+  

@@ -1,11 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import LogoBar from "@/components/layout/LogoBar";
 import { AppContext } from "@/context/AppContext";
 
 const Formulario = () => {
   const router = useRouter();
-  const { user } = useContext(AppContext);
+  const { user, setUser } = useContext(AppContext);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -16,6 +16,14 @@ const Formulario = () => {
     fechafin: "",
     ubicacion: "",
   });
+
+  useEffect(() => {
+    // Load user from localStorage if available
+    const storedUser = localStorage.getItem('usuario');
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, [setUser]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -33,60 +41,64 @@ const Formulario = () => {
     setIsLoading(true);
 
     if (!user) {
-        setError("Debes iniciar sesión para publicar una actividad.");
-        setIsLoading(false);
-        return;
+      setError("Debes iniciar sesión para publicar una actividad.");
+      setIsLoading(false);
+      return;
     }
 
-    const idcliente = user.idusuario;
+    const idcliente = user.idusuario; // Asegúrate de que esto sea correcto
+    console.log("User object: ", user); // Log the user object to debug
+    console.log("idcliente: ", idcliente); // Log idcliente to debug
+
     const fechaFinISO = formData.fechafin
-        ? new Date(formData.fechafin).toISOString().split("T")[0]
-        : null;
+      ? new Date(formData.fechafin).toISOString().split("T")[0]
+      : null;
 
     const trabajoData = new FormData();
     trabajoData.append("trabajoData", JSON.stringify({
-        idcliente: idcliente,
-        titulo: formData.titulo,
-        descripcion: formData.descripcion,
-        categoria: formData.categoria,
-        ubicacion: formData.ubicacion,
-        fechaLimite: fechaFinISO,
-        estado: "ABIERTO",
-        presupuesto: 0
+      idcliente: idcliente,
+      titulo: formData.titulo,
+      descripcion: formData.descripcion,
+      categoria: formData.categoria,
+      ubicacion: formData.ubicacion,
+      fechaLimite: fechaFinISO,
+      estado: "ABIERTO",
+      presupuesto: 0
     }));
     if (formData.imagen) {
-        trabajoData.append("imagen", formData.imagen);
+      trabajoData.append("imagen", formData.imagen);
     }
+
+    console.log("trabajoData: ", [...trabajoData.entries()]); // Log the FormData entries
 
     try {
-        const response = await fetch("http://localhost:8080/trabajos", {
-            method: "POST",
-            body: trabajoData
+      const response = await fetch("http://localhost:8080/trabajos", {
+        method: "POST",
+        body: trabajoData
+      });
+
+      setIsLoading(false);
+
+      if (response.ok) {
+        alert("La actividad se ha enviado correctamente");
+        router.push("/visualizacionPropuestas");
+        setFormData({
+          titulo: "",
+          descripcion: "",
+          categoria: "Selecciona",
+          imagen: null,
+          fechafin: "",
+          ubicacion: "",
         });
-
-        setIsLoading(false);
-
-        if (response.ok) {
-            alert("La actividad se ha enviado correctamente");
-            router.push("/visualizacionPropuestas");
-            setFormData({
-                titulo: "",
-                descripcion: "",
-                categoria: "Selecciona",
-                imagen: null,
-                fechafin: "",
-                ubicacion: "",
-            });
-        } else {
-            const errorData = await response.json();
-            setError(errorData.error || "Error al enviar la actividad");
-        }
+      } else {
+        const errorData = await response.json();
+        setError(errorData.error || "Error al enviar la actividad");
+      }
     } catch (error) {
-        setError("Error en la conexión. Inténtalo de nuevo más tarde.");
-        console.error(error);
+      setError("Error en la conexión. Inténtalo de nuevo más tarde.");
+      console.error(error);
     }
-};
-
+  };
 
   return (
     <>
@@ -97,13 +109,7 @@ const Formulario = () => {
         <form className="form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="titulo">Nombre de tarea:</label>
-            <input
-              type="text"
-              id="titulo"
-              name="titulo"
-              value={formData.titulo}
-              onChange={handleInputChange}
-            />
+            <input type="text" id="titulo" name="titulo" value={formData.titulo} onChange={handleInputChange} />
           </div>
           <div className="form-group">
             <label htmlFor="descripcion">Descripción de la tarea:</label>
@@ -118,32 +124,15 @@ const Formulario = () => {
           </div>
           <div className="form-group">
             <label htmlFor="ubicacion">Dirección completa:</label>
-            <input
-              type="text"
-              id="ubicacion"
-              name="ubicacion"
-              value={formData.ubicacion}
-              onChange={handleInputChange}
-            />
+            <input type="text" id="ubicacion" name="ubicacion" value={formData.ubicacion} onChange={handleInputChange} />
           </div>
           <div className="form-group">
             <label htmlFor="imagen">Subir imagen:</label>
-            <input
-              type="file"
-              id="imagen"
-              name="imagen"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
+            <input type="file" id="imagen" name="imagen" accept="image/*" onChange={handleImageChange} />
           </div>
           <div className="form-group">
             <label htmlFor="categoria">Categoría:</label>
-            <select
-              id="categoria"
-              name="categoria"
-              value={formData.categoria}
-              onChange={handleInputChange}
-            >
+            <select id="categoria" name="categoria" value={formData.categoria} onChange={handleInputChange}>
               <option value="Selecciona">--Selecciona--</option>
               <option value="Carpinteria">Carpintería</option>
               <option value="Electricista">Electricista</option>
@@ -154,83 +143,14 @@ const Formulario = () => {
           </div>
           <div className="form-group">
             <label htmlFor="fechafin">Disponibilidad de la tarea:</label>
-            <input
-              type="date"
-              id="fechafin"
-              name="fechafin"
-              value={formData.fechafin}
-              onChange={handleInputChange}
-            />
+            <input type="date" id="fechafin" name="fechafin" value={formData.fechafin} onChange={handleInputChange} />
           </div>
           <button type="submit" disabled={isLoading}>
-            {isLoading ? "Enviando..." : "Enviar"}
+            {isLoading ? 'Enviando...' : 'Enviar'}
           </button>
           {error && <p className="error">{error}</p>}
         </form>
       </div>
-      <style jsx>{`
-        .form-container {
-          max-width: 600px;
-          margin: 50px auto;
-          padding: 20px;
-          text-align: center;
-          border: 1px solid #ccc;
-          border-radius: 10px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-          margin-bottom: 15px;
-          text-align: left;
-        }
-
-        .form-group label {
-          display: block;
-          margin-bottom: 5px;
-          font-weight: bold;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-          width: 100%;
-          padding: 8px;
-          box-sizing: border-box;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-          transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-          border-color: #0070f3;
-        }
-
-        button {
-          background-color: #0070f3;
-          color: white;
-          padding: 10px 15px;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: background-color 0.3s;
-        }
-
-        button:disabled {
-          background-color: #ccc;
-          cursor: not-allowed;
-        }
-
-        button:hover:not(:disabled) {
-          background-color: #005bb5;
-        }
-
-        .error {
-          color: red;
-          margin-top: 10px;
-        }
-      `}</style>
     </>
   );
 };

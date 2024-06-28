@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Box, Grid, Pagination, CircularProgress, Alert } from "@mui/material";
 import { AppContext } from "@/context/AppContext";
-import { getPropuestas, enviarPropuesta } from "@/services/apiService";
 import PropuestaCard from "@/components/propuestas/PropuestaCard";
 import LogoBar from "@/components/layout/LogoBar";
 import DetallePropuesta from "@/components/propuestas/DetallePropuesta";

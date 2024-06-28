@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { register } from "@/services/userService";
 
 const username = 'user';
 const password = '67c7122a-25c3-4f87-aee6-4680a5bfd111';

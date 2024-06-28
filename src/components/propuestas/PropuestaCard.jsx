@@ -1,27 +1,32 @@
-import { Button, Typography, Card, CardActions, CardContent, CardMedia } from '@mui/material';
+import React from 'react';
+import { Card, CardContent, CardMedia, Typography, CardActions, Button } from '@mui/material';
 
-const PropuestaCard = ({ id, nombre, descripcion, image, detalle }) => {
+const PropuestaCard = ({ propuesta, onVerDetalle }) => {
+  const imagenUrl = propuesta.imagenUrl || `http://localhost:8080/trabajos/${propuesta.idtrabajo}/imagen`;
 
-    return (
-        <Card key={id} sx={{ maxWidth: 345, height: 500, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-            <CardMedia
-                sx={{ height: 200 }}
-                image={image}
-                title="propuestaImage"
-            />
-            <CardContent sx={{ flexGrow: 1 }}>
-                <Typography gutterBottom variant="h5" component="div">
-                    {nombre}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    {descripcion.length > 200 ? `${descripcion.slice(0, 200)}...` : descripcion}
-                </Typography>
-            </CardContent>
-            <CardActions>
-                <Button size="small" onClick={detalle}>Más detalles</Button>
-            </CardActions>
-        </Card>
-    )
-}
+  return (
+    <Card className="MuiCard-root">
+      <CardMedia
+        component="img"
+        height="300"
+        image={imagenUrl}
+        alt={propuesta.titulo}
+        className="MuiCardMedia-root"
+        style={{ objectFit: 'cover' }}
+      />
+      <CardContent className="MuiCardContent-root">
+        <Typography variant="h6" component="div">
+          {propuesta.titulo}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {propuesta.descripcion}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small" onClick={() => onVerDetalle(propuesta.idtrabajo)}>Más Detalles</Button>
+      </CardActions>
+    </Card>
+  );
+};
 
 export default PropuestaCard;

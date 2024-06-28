@@ -30,9 +30,7 @@ const LoginForm = () => {
             const userData = await response.json();
             setUser(userData); // Guardar datos de usuario en el contexto
             localStorage.setItem('usuario', JSON.stringify(userData)); // Guardar datos de usuario en localStorage
-
-            // Redireccionar según el rol del usuario
-            router.push(userData.rol === 'CLIENTE' ? '/visualizacionPropuestas' : '/propuestas'); 
+            router.push(userData.rol === 'CLIENTE' ? '/visualizacionPropuestas' : '/propuestas');
         } else {
             const errorData = await response.json(); 
             setError(errorData.error || "Credenciales incorrectas"); 
@@ -50,7 +48,6 @@ const LoginForm = () => {
       <div className="form_area">
         <p className="title">LaboraPE</p>
         <form onSubmit={handleSubmit}>
-          {/* Campos del formulario */}
           <div className="form_group">
             <label className="sub_title" htmlFor="correo">
               Email
