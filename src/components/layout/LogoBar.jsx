@@ -34,7 +34,7 @@ const LogoBar = () => {
             </a>
           </li>
           <li>
-            <a href="http://localhost:3000/misTrabajos">Mis Trabajos</a>
+            <a href="http://localhost:3000/MisTrabajos">Mis Trabajos</a>
           </li>
         </ul>
       </nav>

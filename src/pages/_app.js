@@ -8,6 +8,7 @@ import '../styles/global/propuestas.css';
 import '../styles/global/formulario.css';
 import '../styles/global/misTrabajos.module.css';
 import '../styles/global/MisTrabajosCard.module.css';
+import '../styles/global/EditarTrabajoModal.module.css';
 
 function MyApp({ Component, pageProps }) {
   return (

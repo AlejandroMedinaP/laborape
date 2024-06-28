@@ -1,13 +1,16 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Box, Grid, Alert } from "@mui/material";
-import MisTrabajosCard from "@/components/trabajos/MisTrabajosCard";
-import LogoBar from "@/components/layout/LogoBar";
-import { AppContext } from "@/context/AppContext";
+import React, { useState, useEffect, useContext } from 'react';
+import { Box, Grid, Alert } from '@mui/material';
+import MisTrabajosCard from '@/components/trabajos/MisTrabajosCard';
+import LogoBar from '@/components/layout/LogoBar';
+import { AppContext } from '@/context/AppContext';
+import EditarTrabajoModal from '@/components/trabajos/EditarTrabajoModal';
+import styles from '@/styles/global/misTrabajos.module.css';
 
 const MisTrabajos = () => {
   const { user } = useContext(AppContext);
   const [trabajos, setTrabajos] = useState([]);
   const [error, setError] = useState(null);
+  const [trabajoSeleccionado, setTrabajoSeleccionado] = useState(null);
 
   useEffect(() => {
     const fetchTrabajos = async () => {
@@ -31,7 +34,7 @@ const MisTrabajos = () => {
   }, [user]);
 
   const handleEdit = (trabajo) => {
-    console.log("Editando trabajo:", trabajo);
+    setTrabajoSeleccionado(trabajo);
   };
 
   const handleDelete = async (idtrabajo) => {
@@ -48,27 +51,19 @@ const MisTrabajos = () => {
     }
   };
 
-  if (!user) {
-    return (
-      <div className="container">
-        <LogoBar />
-        <h1 className="title">Mis Trabajos</h1>
-        <Box className="trabajos-container">
-          <Alert severity="error">Debes iniciar sesión para ver tus trabajos.</Alert>
-        </Box>
-      </div>
-    );
-  }
+  const closeModal = () => {
+    setTrabajoSeleccionado(null);
+  };
 
   return (
     <div className="container">
       <LogoBar />
       <h1 className="title">Mis Trabajos</h1>
-      <Box className="trabajos-container">
+      <Box className={styles.trabajosContainer}>
         {error && <Alert severity="error">{error}</Alert>}
-        <Grid container spacing={2}>
+        <Grid container spacing={2} justifyContent="center">
           {trabajos.map((trabajo) => (
-            <Grid item key={trabajo.idtrabajo}>
+            <Grid item key={trabajo.idtrabajo} xs={12} sm={6} md={4} lg={3} className={styles.gridItem}>
               <MisTrabajosCard
                 trabajo={trabajo}
                 onEdit={handleEdit}
@@ -78,6 +73,12 @@ const MisTrabajos = () => {
           ))}
         </Grid>
       </Box>
+      {trabajoSeleccionado && (
+        <EditarTrabajoModal
+          trabajo={trabajoSeleccionado}
+          onClose={closeModal}
+        />
+      )}
     </div>
   );
 };
