@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import LogoBar from "@/components/layout/LogoBar";
 import { AppContext } from "@/context/AppContext";
+import styles from '@/styles/global/Formulario.module.css';
 
 const Formulario = () => {
   const router = useRouter();
@@ -15,10 +16,10 @@ const Formulario = () => {
     imagen: null,
     fechafin: "",
     ubicacion: "",
+    presupuesto: "",
   });
 
   useEffect(() => {
-    // Load user from localStorage if available
     const storedUser = localStorage.getItem('usuario');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
@@ -46,10 +47,7 @@ const Formulario = () => {
       return;
     }
 
-    const idcliente = user.idusuario; // Asegúrate de que esto sea correcto
-    console.log("User object: ", user); // Log the user object to debug
-    console.log("idcliente: ", idcliente); // Log idcliente to debug
-
+    const idcliente = user.idusuario;
     const fechaFinISO = formData.fechafin
       ? new Date(formData.fechafin).toISOString().split("T")[0]
       : null;
@@ -63,13 +61,11 @@ const Formulario = () => {
       ubicacion: formData.ubicacion,
       fechaLimite: fechaFinISO,
       estado: "ABIERTO",
-      presupuesto: 0
+      presupuesto: formData.presupuesto
     }));
     if (formData.imagen) {
       trabajoData.append("imagen", formData.imagen);
     }
-
-    console.log("trabajoData: ", [...trabajoData.entries()]); // Log the FormData entries
 
     try {
       const response = await fetch("http://localhost:8080/trabajos", {
@@ -81,7 +77,7 @@ const Formulario = () => {
 
       if (response.ok) {
         alert("La actividad se ha enviado correctamente");
-        router.push("/visualizacionPropuestas");
+        router.push("/MisTrabajos");
         setFormData({
           titulo: "",
           descripcion: "",
@@ -89,6 +85,7 @@ const Formulario = () => {
           imagen: null,
           fechafin: "",
           ubicacion: "",
+          presupuesto: "",
         });
       } else {
         const errorData = await response.json();
@@ -101,36 +98,41 @@ const Formulario = () => {
   };
 
   return (
-    <>
+    <div className={styles.bodyNoMargin}>
       <LogoBar />
-      <div className="form-container">
+      <div className={styles.formContainer}>
         <h1>Envía tu actividad</h1>
-        <p>Por este formulario podrás subir la actividad que deseas resolver</p>
-        <form className="form" onSubmit={handleSubmit}>
-          <div className="form-group">
+        <p>Por este formulario podrás subir el trabajo que desees ofrecer</p>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <div className={styles.formGroup}>
             <label htmlFor="titulo">Nombre de tarea:</label>
             <input type="text" id="titulo" name="titulo" value={formData.titulo} onChange={handleInputChange} />
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="descripcion">Descripción de la tarea:</label>
             <textarea
               id="descripcion"
               name="descripcion"
               value={formData.descripcion}
               onChange={handleInputChange}
-              rows={6}
+              rows={3} // Reduced height
               placeholder="Escribe la descripción de la actividad"
             />
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="ubicacion">Dirección completa:</label>
             <input type="text" id="ubicacion" name="ubicacion" value={formData.ubicacion} onChange={handleInputChange} />
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
+            <label htmlFor="presupuesto">Presupuesto:</label>
+            <input type="text" id="presupuesto" name="presupuesto" value={formData.presupuesto} onChange={handleInputChange} />
+          </div>
+          <div className={styles.formGroup}>
             <label htmlFor="imagen">Subir imagen:</label>
             <input type="file" id="imagen" name="imagen" accept="image/*" onChange={handleImageChange} />
+            <label htmlFor="imagen" className={styles.fileLabel}>Seleccionar archivo</label>
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="categoria">Categoría:</label>
             <select id="categoria" name="categoria" value={formData.categoria} onChange={handleInputChange}>
               <option value="Selecciona">--Selecciona--</option>
@@ -141,17 +143,17 @@ const Formulario = () => {
               <option value="Otro">Otro</option>
             </select>
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label htmlFor="fechafin">Disponibilidad de la tarea:</label>
             <input type="date" id="fechafin" name="fechafin" value={formData.fechafin} onChange={handleInputChange} />
           </div>
-          <button type="submit" disabled={isLoading}>
+          <button type="submit" className={styles.submitButton} disabled={isLoading}>
             {isLoading ? 'Enviando...' : 'Enviar'}
           </button>
-          {error && <p className="error">{error}</p>}
+          {error && <p className={styles.error}>{error}</p>}
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

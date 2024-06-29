@@ -1,0 +1,100 @@
+.bodyNoMargin {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.pageContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding-top: 60px; /* Espaciado superior para que el título no toque la barra */
+}
+
+.title {
+    font-size: 30px;
+    margin: 80px 40px; /* Espaciado arriba y abajo */
+    text-align: center; /* Centrar el título */
+}
+
+.propuestasContainer {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.propuestaItem {
+    display: flex;
+    justify-content: space-between;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Aumenta la sombra para que sea más visible */
+    padding: 20px;
+    margin: 60px 0; /* Aumenta el espaciado entre las propuestas */
+    text-align: left;
+    width: 100%;
+}
+
+.freelancerInfo {
+    display: flex;
+    align-items: center;
+}
+
+.freelancerImage {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.freelancerDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 2px; /* Ajusta el espaciado entre las características */
+}
+
+.trabajoDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.buttonsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.acceptButton,
+.rejectButton,
+.offerButton {
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 150px;
+    text-align: center;
+}
+
+.acceptButton {
+    background-color: #0070f3;
+}
+
+.rejectButton {
+    background-color: #ff4d4d;
+}
+
+.offerButton {
+    background-color: #f0ad4e;
+}

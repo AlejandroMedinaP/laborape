@@ -10,6 +10,7 @@ const EditarTrabajoModal = ({ trabajo, onClose }) => {
     categoria: trabajo.categoria || '',
     ubicacion: trabajo.ubicacion || '',
     fechaLimite: trabajo.fechaLimite ? new Date(trabajo.fechaLimite).toISOString().split('T')[0] : '',
+    presupuesto: trabajo.presupuesto || '',
     imagen: null,
     idcliente: trabajo.cliente ? trabajo.cliente.idcliente : (user ? user.idusuario : '')
   });
@@ -54,6 +55,7 @@ const EditarTrabajoModal = ({ trabajo, onClose }) => {
       categoria: formData.categoria,
       ubicacion: formData.ubicacion,
       fechaLimite: formData.fechaLimite,
+      presupuesto: formData.presupuesto,
       estado: trabajo.estado,
       idcliente: formData.idcliente,
     }));
@@ -83,71 +85,86 @@ const EditarTrabajoModal = ({ trabajo, onClose }) => {
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
-        <h2>Editar Trabajo</h2>
+        <h2 className={styles.modalTitle}>Editar Trabajo</h2>
         <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.formGroup}>
-            <label>Título</label>
-            <input
-              type="text"
-              name="titulo"
-              value={formData.titulo}
-              onChange={handleChange}
-              className={styles.input}
-            />
+          <div className={styles.imageContainer}>
+            <img src={`http://localhost:8080/trabajos/${trabajo.idtrabajo}/imagen`} alt="Trabajo" className={styles.image}/>
           </div>
-          <div className={styles.formGroup}>
-            <label>Descripción</label>
-            <textarea
-              name="descripcion"
-              value={formData.descripcion}
-              onChange={handleChange}
-              className={styles.textarea}
-            ></textarea>
-          </div>
-          <div className={styles.formGroup}>
-            <label>Categoría</label>
-            <input
-              type="text"
-              name="categoria"
-              value={formData.categoria}
-              onChange={handleChange}
-              className={styles.input}
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <label>Ubicación</label>
-            <input
-              type="text"
-              name="ubicacion"
-              value={formData.ubicacion}
-              onChange={handleChange}
-              className={styles.input}
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <label>Fecha Límite</label>
-            <input
-              type="date"
-              name="fechaLimite"
-              value={formData.fechaLimite}
-              onChange={handleChange}
-              className={styles.input}
-            />
-          </div>
-          <div className={styles.formGroup}>
-            <label>Imagen</label>
-            <input
-              type="file"
-              name="imagen"
-              accept="image/png, image/jpeg"
-              onChange={handleImageChange}
-              className={styles.input}
-            />
-            {error && <p className={styles.error}>{error}</p>}
-          </div>
-          <div className={styles.buttonGroup}>
-            <button type="submit" className={styles.saveButton}>Guardar Cambios</button>
-            <button type="button" onClick={onClose} className={styles.cancelButton}>Cancelar</button>
+          <div className={styles.formContainer}>
+            <div className={styles.formGroup}>
+              <label>Título</label>
+              <input
+                type="text"
+                name="titulo"
+                value={formData.titulo}
+                onChange={handleChange}
+                className={styles.input}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Descripción</label>
+              <textarea
+                name="descripcion"
+                value={formData.descripcion}
+                onChange={handleChange}
+                className={styles.textarea}
+              ></textarea>
+            </div>
+            <div className={styles.formGroup}>
+              <label>Categoría</label>
+              <input
+                type="text"
+                name="categoria"
+                value={formData.categoria}
+                onChange={handleChange}
+                className={styles.input}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Ubicación</label>
+              <input
+                type="text"
+                name="ubicacion"
+                value={formData.ubicacion}
+                onChange={handleChange}
+                className={styles.input}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Fecha Límite</label>
+              <input
+                type="date"
+                name="fechaLimite"
+                value={formData.fechaLimite}
+                onChange={handleChange}
+                className={styles.input}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Presupuesto</label>
+              <input
+                type="text"
+                name="presupuesto"
+                value={formData.presupuesto}
+                onChange={handleChange}
+                className={styles.input}
+              />
+            </div>
+            <div className={styles.formGroup}>
+              <label>Imagen</label>
+              <input
+                type="file"
+                name="imagen"
+                accept="image/png, image/jpeg"
+                onChange={handleImageChange}
+                className={styles.input}
+              />
+              {error && <p className={styles.error}>{error}</p>}
+            </div>
+            <div className={styles.buttonGroup}>
+              <button type="submit" className={styles.saveButton}>Guardar Cambios</button>
+              <button type="button" onClick={onClose} className={styles.cancelButton}>Cancelar</button>
+            </div>
           </div>
         </form>
       </div>

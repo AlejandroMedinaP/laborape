@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
 import { AppContext } from '@/context/AppContext';
+import styles from '@/styles/global/LogoBar.module.css';
 
 const LogoBar = () => {
   const { setUser } = useContext(AppContext);
@@ -13,35 +14,28 @@ const LogoBar = () => {
   };
 
   return (
-    <div className="logo-bar">
-      {/* Logo */}
-      <div className="logo">
+    <div className={styles.logoBar}>
+      <div className={styles.logo}>
         <img
           src={`/imagenes/Labora.png`}
-          style={{ width: "150px", height: "70px", objectFit: "cover" }}
+          className={styles.logoImage}
         />
       </div>
-
-      {/* Enlaces de Navegación */}
-      <nav>
-        <ul>
-          <li>
+      <nav className={styles.nav}>
+        <ul className={styles.navList}>
+          <li className={router.pathname === '/publicacion' ? styles.active : ''}>
             <a href="http://localhost:3000/publicacion">Publica tu actividad</a>
           </li>
-          <li>
-            <a href="http://localhost:3000/visualizacionPropuestas">
-              Ver Solicitudes
-            </a>
+          <li className={router.pathname === '/visualizacionPropuestas' ? styles.active : ''}>
+            <a href="http://localhost:3000/visualizacionPropuestas">Ver Propuestas</a>
           </li>
-          <li>
+          <li className={router.pathname === '/MisTrabajos' ? styles.active : ''}>
             <a href="http://localhost:3000/MisTrabajos">Mis Trabajos</a>
           </li>
         </ul>
       </nav>
-
-      {/* Acciones de Usuario */}
-      <div className="user-actions">
-        <a href="#" onClick={handleLogout}>Cerrar Sesión</a> {/* Mantener el estilo de enlace */}
+      <div className={styles.userActions}>
+        <a href="#" onClick={handleLogout} className={styles.logoutButton}>Cerrar Sesión</a>
       </div>
     </div>
   );

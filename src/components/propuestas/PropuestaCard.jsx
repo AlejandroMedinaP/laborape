@@ -1,31 +1,22 @@
 import React from 'react';
-import { Card, CardContent, CardMedia, Typography, CardActions, Button } from '@mui/material';
+import styles from '@/styles/global/PropuestaCard.module.css';
 
-const PropuestaCard = ({ propuesta, onVerDetalle }) => {
-  const imagenUrl = propuesta.imagenUrl || `http://localhost:8080/trabajos/${propuesta.idtrabajo}/imagen`;
-
+const PropuestaCard = ({ propuesta, onAccept, onReject, onOffer }) => {
   return (
-    <Card className="MuiCard-root">
-      <CardMedia
-        component="img"
-        height="300"
-        image={imagenUrl}
-        alt={propuesta.titulo}
-        className="MuiCardMedia-root"
-        style={{ objectFit: 'cover' }}
-      />
-      <CardContent className="MuiCardContent-root">
-        <Typography variant="h6" component="div">
-          {propuesta.titulo}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {propuesta.descripcion}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small" onClick={() => onVerDetalle(propuesta.idtrabajo)}>Más Detalles</Button>
-      </CardActions>
-    </Card>
+    <div className={styles.card}>
+      <img src={propuesta.imagen} alt={propuesta.freelancer} className={styles.image} />
+      <div className={styles.info}>
+        <h3>{propuesta.freelancer}</h3>
+        <p>Edad: {propuesta.edad}</p>
+        <p>{propuesta.descripcion}</p>
+        <p><strong>{propuesta.trabajo}</strong></p>
+      </div>
+      <div className={styles.actions}>
+        <button className={styles.acceptButton} onClick={() => onAccept(propuesta.id)}>Aceptar</button>
+        <button className={styles.rejectButton} onClick={() => onReject(propuesta.id)}>Rechazar</button>
+        <button className={styles.offerButton} onClick={() => onOffer(propuesta.id)}>Ofrecer Propuesta</button>
+      </div>
+    </div>
   );
 };
 

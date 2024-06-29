@@ -15,11 +15,10 @@
     background: white;
     padding: 20px;
     border-radius: 10px;
-    width: 90%; /* Cambia de 80% a 90% para más espacio */
-    max-width: 500px;
+    width: 80%;
+    max-width: 700px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     animation: slideIn 0.3s ease-out;
-    margin: 0 auto; /* Centra el modal horizontalmente */
 }
 
 @keyframes slideIn {
@@ -33,7 +32,7 @@
     }
 }
 
-.modalContent h2 {
+.modalTitle {
     margin-top: 0;
     font-size: 1.5em;
     text-align: center;
@@ -45,15 +44,29 @@
 }
 
 .formGroup {
-    margin-bottom: 5px;
-    padding-right: 15px;
-    padding-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding-left: 10px;
 }
 
-.formGroup label {
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
+.imageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.image {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 20px;
+    object-fit: cover;
+}
+
+.inputs {
+    flex: 1;
 }
 
 .input, .textarea {
@@ -62,16 +75,18 @@
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1em;
+    margin-bottom: 10px;
 }
 
 .textarea {
-    resize: vertical;
-    height: 100px;
+    resize: none;
+    height: 80px;
 }
 
 .buttonGroup {
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
 }
 
 .saveButton, .cancelButton {
@@ -90,4 +105,9 @@
 .cancelButton {
     background-color: #dc3545;
     color: white;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
 }
