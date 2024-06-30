@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-const username = 'user';
-const password = '67c7122a-25c3-4f87-aee6-4680a5bfd111';
-
 const RegistrationForm = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
     nombre: "",
     correo: "",
     contrasenia: "",
-    rol: "CLIENTE", // Valor por defecto CLIENTE
+    rol: "CLIENTE",
+    edad: "",
+    sexo: "",
+    numeroCelular: "",
   });
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false); // Estado de carga
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,12 +22,11 @@ const RegistrationForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    setIsLoading(true); // Iniciar carga
+    setIsLoading(true);
 
-    // Validación básica en el frontend
-    if (!formData.nombre || !formData.correo || !formData.contrasenia) {
+    if (!formData.nombre || !formData.correo || !formData.contrasenia || !formData.edad || !formData.sexo || !formData.numeroCelular) {
         setError("Por favor, completa todos los campos.");
-        setIsLoading(false); // Finalizar carga si hay error
+        setIsLoading(false);
         return;
     }
 
@@ -42,20 +41,14 @@ const RegistrationForm = () => {
             const data = await response.json();
 
             if (data.rol === "FREELANCER") {
-                // Registrar como freelancer
                 await fetch("http://localhost:8080/freelancers", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
-                        idusuario: data.idusuario, 
-                        // Opcional, puedes agregar más campos si es necesario:
-                        // calificacion: 0.0, 
-                        // descripcion: "", 
-                        // habilidades: "" 
+                        idusuario: data.idusuario,
                     }),
                 });
             } else if (data.rol === "CLIENTE") {
-                // Registrar como cliente
                 await fetch("http://localhost:8080/clientes", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -72,22 +65,17 @@ const RegistrationForm = () => {
         setError("Error al registrarse. Inténtalo de nuevo más tarde.");
         console.error(error);
     } finally {
-        setIsLoading(false); // Finalizar carga en cualquier caso
+        setIsLoading(false);
     }
-};
-
-
+  };
 
   return (
     <div className="container">
       <div className="form_area">
         <p className="title">REGISTRO</p>
         <form onSubmit={handleSubmit}>
-          {/* Campos del formulario (nombre, correo, contraseña) */}
           <div className="form_group">
-            <label className="sub_title" htmlFor="nombre">
-              Nombre Completo
-            </label>
+            <label className="sub_title" htmlFor="nombre">Nombre Completo</label>
             <input
               placeholder="Introduzca su nombre"
               className="form_style"
@@ -99,9 +87,7 @@ const RegistrationForm = () => {
             />
           </div>
           <div className="form_group">
-            <label className="sub_title" htmlFor="correo">
-              Correo
-            </label>
+            <label className="sub_title" htmlFor="correo">Correo</label>
             <input
               placeholder="Introduzca un correo"
               className="form_style"
@@ -113,9 +99,7 @@ const RegistrationForm = () => {
             />
           </div>
           <div className="form_group">
-            <label className="sub_title" htmlFor="contrasenia">
-              Contraseña
-            </label>
+            <label className="sub_title" htmlFor="contrasenia">Contraseña</label>
             <input
               placeholder="Introduzca una contraseña"
               className="form_style"
@@ -126,12 +110,47 @@ const RegistrationForm = () => {
               required
             />
           </div>
-
-          {/* Selección de Rol (con estilo corregido) */}
+          <div className="form_group">
+            <label className="sub_title" htmlFor="edad">Edad</label>
+            <input
+              placeholder="Introduzca su edad"
+              className="form_style"
+              type="number"
+              name="edad"
+              value={formData.edad}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form_group">
+            <label className="sub_title" htmlFor="sexo">Sexo</label>
+            <select
+              name="sexo"
+              className="form_style"
+              value={formData.sexo}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Selecciona Sexo</option>
+              <option value="masculino">Masculino</option>
+              <option value="femenino">Femenino</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div className="form_group">
+            <label className="sub_title" htmlFor="numeroCelular">Número de Celular</label>
+            <input
+              placeholder="Introduzca su número de celular"
+              className="form_style"
+              type="tel"
+              name="numeroCelular"
+              value={formData.numeroCelular}
+              onChange={handleChange}
+              required
+            />
+          </div>
           <div className="form_group"> 
-            <label className="sub_title" htmlFor="rol">
-              ¿Qué desea en la app?
-            </label>
+            <label className="sub_title" htmlFor="rol">¿Qué desea en la app?</label>
             <select
               name="rol"
               id="rolSelect" 
@@ -143,10 +162,9 @@ const RegistrationForm = () => {
               <option value="FREELANCER">Freelancer</option>
             </select>
           </div>
-
           <div>
-            <button className="btn" type="submit">
-              CREAR CUENTA
+            <button className="btn" type="submit" disabled={isLoading}>
+              {isLoading ? "Cargando..." : "CREAR CUENTA"}
             </button>
             {error && <p className="error-message">{error}</p>}
           </div>
@@ -157,3 +175,4 @@ const RegistrationForm = () => {
 };
 
 export default RegistrationForm;
+

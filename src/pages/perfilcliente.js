@@ -1,9 +1,11 @@
+// pages/perfilCliente.js
+
 import React, { useEffect, useState } from 'react';
 import { Box, Button, TextField, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
-import styles from '@/styles/global/perfil.module.css';
-import LogoBarFreelance from '@/components/layout/LogoBarFreelance';
+import styles from '@/styles/global/perfilcliente.module.css';
+import LogoBar from '@/components/layout/LogoBar';
 
-const Perfil = () => {
+const PerfilCliente = () => {
   const [perfil, setPerfil] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [formPerfil, setFormPerfil] = useState({
@@ -92,7 +94,7 @@ const Perfil = () => {
 
   return (
     <div className={styles.container}>
-      <LogoBarFreelance />
+      <LogoBar />
       <Box className={styles.perfilContainer}>
         <img src={formPerfil.imagenUrl} alt={formPerfil.nombre} className={styles.perfilImage} />
         {!editMode ? (
@@ -185,5 +187,5 @@ const Perfil = () => {
   );
 };
 
-export default Perfil;
+export default PerfilCliente;
 

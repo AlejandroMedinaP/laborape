@@ -31,6 +31,7 @@ const LoginForm = () => {
         const userData = await response.json();
         setUser(userData);
         localStorage.setItem('usuario', JSON.stringify(userData));
+        localStorage.setItem('idusuario', userData.idusuario); // Asegurarnos de que el ID del usuario se guarda en localStorage
         router.push(userData.rol === 'CLIENTE' ? '/visualizacionPropuestas' : '/trabajosFreelancer');
       } else {
         const errorData = await response.json();
@@ -100,3 +101,4 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+

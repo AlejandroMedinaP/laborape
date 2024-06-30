@@ -24,13 +24,16 @@ const LogoBar = () => {
       <nav className={styles.nav}>
         <ul className={styles.navList}>
           <li className={router.pathname === '/publicacion' ? styles.active : ''}>
-            <a href="http://localhost:3000/publicacion">Publica tu actividad</a>
+            <a href="/publicacion">Publica tu actividad</a>
           </li>
           <li className={router.pathname === '/visualizacionPropuestas' ? styles.active : ''}>
-            <a href="http://localhost:3000/visualizacionPropuestas">Ver Propuestas</a>
+            <a href="/visualizacionPropuestas">Ver Propuestas</a>
           </li>
           <li className={router.pathname === '/MisTrabajos' ? styles.active : ''}>
-            <a href="http://localhost:3000/MisTrabajos">Mis Trabajos</a>
+            <a href="/MisTrabajos">Mis Trabajos</a>
+          </li>
+          <li className={router.pathname === '/perfilcliente' ? styles.active : ''}>
+            <a href="/perfilcliente">Perfil</a>
           </li>
         </ul>
       </nav>
